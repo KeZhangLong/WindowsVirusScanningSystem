@@ -7,8 +7,8 @@
         <view:Home />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type vm:CustomerVM}">
-        <view:Customers />
+    <DataTemplate DataType="{x:Type vm:DocumentScanningFunctionVM}">
+        <view:DocumentScanningFunction />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type vm:ProductVM}">

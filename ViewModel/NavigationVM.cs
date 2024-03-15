@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using System.Windows.Input;
 using WindowsVirusScanningSystem.Utilities;
+using WindowsVirusScanningSystem.View;
 
 namespace WindowsVirusScanningSystem.ViewModel
 {
@@ -14,10 +15,10 @@ namespace WindowsVirusScanningSystem.ViewModel
         public NavigationVM()
         {
             HomeCommand = new RelayCommand(Home);
-            CustomersCommand = new RelayCommand(Customer);
             ProductsCommand = new RelayCommand(Product);
             OrdersCommand = new RelayCommand(Order);
             TransactionsCommand = new RelayCommand(Transaction);
+            DocumentScanningFunctionCommand = new RelayCommand(DocumentScanningFunction);
 
             // Startup Page
             CurrentView = new HomeVM();
@@ -31,13 +32,13 @@ namespace WindowsVirusScanningSystem.ViewModel
         }
 
         public ICommand HomeCommand { get; set; }
-        public ICommand CustomersCommand { get; set; }
         public ICommand ProductsCommand { get; set; }
         public ICommand OrdersCommand { get; set; }
         public ICommand TransactionsCommand { get; set; }
+        public ICommand DocumentScanningFunctionCommand { get; set; }
 
         private void Home(object obj) => CurrentView = new HomeVM();
-        private void Customer(object obj) => CurrentView = new CustomerVM();
+        private void DocumentScanningFunction(object obj) => CurrentView = new DocumentScanningFunction();
         private void Product(object obj) => CurrentView = new ProductVM();
         private void Order(object obj) => CurrentView = new OrderVM();
         private void Transaction(object obj) => CurrentView = new TransactionVM();

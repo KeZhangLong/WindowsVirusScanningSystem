@@ -54,7 +54,7 @@
                     <!--// Customer //-->
 
                     <Menu:Btn Style="{StaticResource BtnStyle}"
-                              Command="{Binding CustomersCommand}">
+                              Command="{Binding DocumentScanningFunctionCommand}">
 
                         <Grid>
 

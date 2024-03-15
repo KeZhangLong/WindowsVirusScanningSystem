@@ -7,19 +7,13 @@ using WindowsVirusScanningSystem.Model;
 
 namespace WindowsVirusScanningSystem.ViewModel
 {
-    class CustomerVM : Utilities.ViewModelBase
+    class DocumentScanningFunctionVM : Utilities.ViewModelBase
     {
         private readonly PageModel _pageModel;
-        public int CustomerID
-        {
-            get { return _pageModel.CustomerCount; }
-            set { _pageModel.CustomerCount = value; OnPropertyChanged(); }
-        }
 
-        public CustomerVM()
+        public DocumentScanningFunctionVM()
         {
             _pageModel = new PageModel();
-            CustomerID = 100528;
         }
     }
 }
