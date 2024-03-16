@@ -26,6 +26,9 @@
     <None Remove="Images\shutdown_def.png" />
     <None Remove="Images\shutdown_mo.png" />
     <None Remove="Images\transaction_page.png" />
+    <None Remove="Images\文件.png" />
+    <None Remove="Images\项目文件.png" />
+    <None Remove="Images\项目文件夹.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,6 +50,9 @@
     <Resource Include="Images\shutdown_def.png" />
     <Resource Include="Images\shutdown_mo.png" />
     <Resource Include="Images\transaction_page.png" />
+    <Resource Include="Images\文件.png" />
+    <Resource Include="Images\项目文件.png" />
+    <Resource Include="Images\项目文件夹.png" />
   </ItemGroup>
 
 </Project>

@@ -36,3 +36,7 @@ C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View
 C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\Transactions.baml
 C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\DocumentScanningFunction.g.cs
 C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\DocumentScanningFunction.baml
+C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\File.g.cs
+C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\Folder.baml
+C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\Folder.g.cs
+C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\File.baml

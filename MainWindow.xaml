@@ -58,7 +58,7 @@
 
                         <Grid>
 
-                            <Image Source="Images/img_customer.png"
+                            <Image Source="Images/文件.png"
                                    Style="{StaticResource Image_Style}" />
 
                             <TextBlock Text="文件扫描"

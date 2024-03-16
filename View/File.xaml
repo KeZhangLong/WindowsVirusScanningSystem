@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="WindowsVirusScanningSystem.View.File"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WindowsVirusScanningSystem.View"
+            Name="ProjectFile">
+
+    <Border CornerRadius="25"
+            Padding="10 5 10 0"
+            Height="110"
+            Width="100">
+        <StackPanel Orientation="Vertical">
+            <Canvas>
+                <RadioButton Canvas.Right="-10" Canvas.Top="2"/>
+            </Canvas>
+            <Image Source="/Images/项目文件.png" />
+            <TextBlock Margin="0 5 0 0" HorizontalAlignment="Center" Text="文件1" Foreground="#ffffff"/>
+        </StackPanel>
+
+        
+
+        <!--<Border.Background>
+            <SolidColorBrush x:Name="BorderBackground"
+                             Color="#272B2F" />
+        </Border.Background>-->
+
+
+
+    </Border>
+</UserControl>

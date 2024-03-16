@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\App.xaml
-111209686494
+13-604850894
 
-181870554537
+20-2072240913
 194-1797456590
-MainWindow.xaml;Styles\Button.xaml;Styles\Image.xaml;Styles\Page.xaml;Styles\Text.xaml;Utilities\DataTemplate.xaml;View\DocumentScanningFunction.xaml;View\Home.xaml;View\Orders.xaml;View\Products.xaml;View\Transactions.xaml;
+MainWindow.xaml;Styles\Button.xaml;Styles\Image.xaml;Styles\Page.xaml;Styles\Text.xaml;Utilities\DataTemplate.xaml;View\DocumentScanningFunction.xaml;View\File.xaml;View\Folder.xaml;View\Home.xaml;View\Orders.xaml;View\Products.xaml;View\Transactions.xaml;
 
 False
 
