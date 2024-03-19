@@ -10,6 +10,8 @@
   <ItemGroup>
     <None Remove="Fonts\Rubik-Medium.ttf" />
     <None Remove="Fonts\Rubik-Regular.ttf" />
+    <None Remove="Images\0x-Icon.ico" />
+    <None Remove="Images\Close-Icon.ico" />
     <None Remove="Images\customer_page.png" />
     <None Remove="Images\home_page.png" />
     <None Remove="Images\img_customer.png" />
@@ -19,21 +21,29 @@
     <None Remove="Images\img_setting.png" />
     <None Remove="Images\img_shipment.png" />
     <None Remove="Images\img_transaction.png" />
+    <None Remove="Images\Logo-Icon.ico" />
+    <None Remove="Images\Open-File-Icon.ico" />
     <None Remove="Images\order_page.png" />
     <None Remove="Images\product_page.png" />
+    <None Remove="Images\Save-Icon.ico" />
     <None Remove="Images\setting_page.png" />
     <None Remove="Images\shipment_page.png" />
     <None Remove="Images\shutdown_def.png" />
     <None Remove="Images\shutdown_mo.png" />
     <None Remove="Images\transaction_page.png" />
     <None Remove="Images\文件.png" />
-    <None Remove="Images\项目文件.png" />
-    <None Remove="Images\项目文件夹.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1" />
+    <PackageReference Include="WPFHexaEditor" Version="2.1.7" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Fonts\Rubik-Medium.ttf" />
     <Resource Include="Fonts\Rubik-Regular.ttf" />
+    <Resource Include="Images\0x-Icon.ico" />
+    <Resource Include="Images\Close-Icon.ico" />
     <Resource Include="Images\customer_page.png" />
     <Resource Include="Images\home_page.png" />
     <Resource Include="Images\img_customer.png" />
@@ -43,16 +53,17 @@
     <Resource Include="Images\img_setting.png" />
     <Resource Include="Images\img_shipment.png" />
     <Resource Include="Images\img_transaction.png" />
+    <Resource Include="Images\Logo-Icon.ico" />
+    <Resource Include="Images\Open-File-Icon.ico" />
     <Resource Include="Images\order_page.png" />
     <Resource Include="Images\product_page.png" />
+    <Resource Include="Images\Save-Icon.ico" />
     <Resource Include="Images\setting_page.png" />
     <Resource Include="Images\shipment_page.png" />
     <Resource Include="Images\shutdown_def.png" />
     <Resource Include="Images\shutdown_mo.png" />
     <Resource Include="Images\transaction_page.png" />
     <Resource Include="Images\文件.png" />
-    <Resource Include="Images\项目文件.png" />
-    <Resource Include="Images\项目文件夹.png" />
   </ItemGroup>
 
 </Project>

@@ -19,8 +19,7 @@
         <view:Orders />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type vm:TransactionVM}">
-        <view:Transactions />
+    <DataTemplate DataType="{x:Type vm:WpfHexEditorVM}">
+        <view:WpfHexEditor/>
     </DataTemplate>
-
 </ResourceDictionary>

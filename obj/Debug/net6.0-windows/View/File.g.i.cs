@@ -61,7 +61,7 @@ namespace WindowsVirusScanningSystem.View {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/WindowsVirusScanningSystem;component/view/file.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/WindowsVirusScanningSystem;V1.0.0.0;component/view/file.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\View\File.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

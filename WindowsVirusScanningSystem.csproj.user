@@ -10,13 +10,13 @@
     <Compile Update="View\DocumentScanningFunction.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="View\File.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="View\Folder.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="View\Home.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\ItemsControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\WpfHexEditor.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -42,13 +42,13 @@
     <Page Update="View\DocumentScanningFunction.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\File.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="View\Folder.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="View\Home.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\ItemsControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\WpfHexEditor.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

@@ -6,68 +6,119 @@
              xmlns:local="clr-namespace:WindowsVirusScanningSystem.View"
              xmlns:vm="clr-namespace:WindowsVirusScanningSystem.ViewModel"
              xmlns:card="clr-namespace:WindowsVirusScanningSystem.View"
+             xmlns:system="clr-namespace:System;assembly=netstandard"
              mc:Ignorable="d"
-             d:DesignHeight="600"
-             d:DesignWidth="622"
+             d:DesignHeight="650"
+             d:DesignWidth="722"
              Style="{StaticResource Page_Style}">
 
     <UserControl.DataContext>
         <vm:DocumentScanningFunctionVM />
     </UserControl.DataContext>
 
-    <Grid Margin="10 80 10 0">
+    <Grid Margin="10 80 10 10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="100" />
+            <RowDefinition Height="0.9*" />
         </Grid.RowDefinitions>
 
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="90" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="90" />
-                <ColumnDefinition Width="90" />
-            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.5*" />
+            </Grid.RowDefinitions>
 
-            <Label Foreground="#ffffff"
-                   Content="搜索路径："
-                   FontSize="18"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Top" />
-            <TextBox Grid.Column="1"
-                     Text="{Binding SearchFor, UpdateSourceTrigger=PropertyChanged}"
-                     Height="35"
-                     TextWrapping="NoWrap"
-                     FontSize="16"
-                     Padding="5"
-                     VerticalAlignment="Top" />
-            <Button Grid.Column="2"
-                    Command="{Binding SearchCommand}"
-                    Style="{StaticResource BoxBtnStyle}"
-                    Content="浏览"
-                    VerticalAlignment="Top"
-                    Width="80"
-                    Height="35" />
-            <Button Grid.Column="3"
-                    Command="{Binding SearchCommand}"
-                    Style="{StaticResource BoxBtnStyle}"
-                    Content="开始搜索"
-                    VerticalAlignment="Top"
-                    Width="80"
-                    Height="35" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="90" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="90" />
+                    <ColumnDefinition Width="90" />
+                </Grid.ColumnDefinitions>
+
+                <Label Foreground="#ffffff"
+                       Content="搜索路径："
+                       FontSize="18"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Top" />
+                <TextBox Grid.Column="1"
+                         Text="{Binding folderPath, UpdateSourceTrigger=PropertyChanged}"
+                         Height="35"
+                         TextWrapping="NoWrap"
+                         FontSize="16"
+                         Padding="5"
+                         VerticalAlignment="Top" />
+                <Button Grid.Column="2"
+                        Command="{Binding SearchFolderPathCommand}"
+                        Style="{StaticResource BoxBtnStyle}"
+                        Content="浏览"
+                        VerticalAlignment="Top"
+                        Width="80"
+                        Height="35" />
+                <Button Grid.Column="3"
+                        Command="{Binding SearchFolderContentCommand}"
+                        Style="{StaticResource BoxBtnStyle}"
+                        Content="开始扫描"
+                        VerticalAlignment="Top"
+                        Width="80"
+                        Height="35" />
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Viewbox>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Margin="5 0"
+                                Command="{Binding SearchFolderPathCommand}"
+                                Style="{StaticResource BoxBtnStyle}"
+                                Content="病毒检测"
+                                VerticalAlignment="Center"
+                                Width="150"
+                                Height="35" />
+                        <Button Margin="5 0"
+                                Command="{Binding SearchFolderPathCommand}"
+                                Style="{StaticResource BoxBtnStyle}"
+                                Content="PE文件分析"
+                                VerticalAlignment="Center"
+                                Width="150"
+                                Height="35" />
+                        <Button Margin="5 0"
+                                Command="{Binding SearchFolderPathCommand}"
+                                Style="{StaticResource BoxBtnStyle}"
+                                Content="十六进制编辑器"
+                                VerticalAlignment="Center"
+                                Width="150"
+                                Height="35" />
+                    </StackPanel>
+                </Viewbox>
+            </Grid>
+            
         </Grid>
 
-        <Grid Grid.Row="1" Margin=" 0 15 0 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="0.5*" />
-            </Grid.ColumnDefinitions>
+        <Border  Grid.Row="1" Padding="15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="0.35*" />
+                </Grid.ColumnDefinitions>
 
-            <WrapPanel x:Name="FileDirectory"
-                       Orientation="Horizontal">
-                <card:Folder />
-                <card:File />
-            </WrapPanel>
-        </Grid>
+                <ListBox Background="#212529" ItemsSource="{Binding Results, UpdateSourceTrigger=PropertyChanged}"
+                         HorizontalContentAlignment="Stretch"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         Margin="0,0,5,0">
+                    <!-- The ItemsSource is a ResultItemViewModel collection, -->
+                    <!-- Meaning you can use the ItemTemplate to bind to the ViewModel -->
+                    <!-- The DataContext = {Binding} because that is the ResultItemViewModel -->
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <card:ItemsControl DataContext="{Binding}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <ListBox Background="#212529" Grid.Column="1" Margin="5 0 0 0">
+                    
+                </ListBox>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>
