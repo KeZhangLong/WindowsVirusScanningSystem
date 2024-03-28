@@ -16,6 +16,15 @@
     <Compile Update="View\ItemsControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\PEFileAnalysis.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\PEFileDosConten.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\PEItemsControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\WpfHexEditor.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -46,6 +55,15 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\ItemsControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\PEFileAnalysis.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\PEFileDosConten.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\PEItemsControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\WpfHexEditor.xaml">

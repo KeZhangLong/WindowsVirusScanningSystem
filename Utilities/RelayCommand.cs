@@ -7,7 +7,6 @@ using System.Windows.Input;
 
 namespace WindowsVirusScanningSystem.Utilities
 {
-    //relaycommand -它们是可以向视图公开方法或委托的命令实现。这些类型作为在ViewModel和ui元素之间绑定命令的一种方式
     class RelayCommand : ICommand
     {
         private readonly Action<object> _execute;

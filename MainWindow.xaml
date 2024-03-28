@@ -19,8 +19,7 @@
         <vm:NavigationVM />
     </Window.DataContext>
 
-    <Grid MouseDown="MouseDownEvent"
-          MouseLeftButtonDown="MouseLeftButtonDownEvent">
+    <Grid MouseDown="MouseDownEvent">
         
         <Border Background="#212529" CornerRadius="20" />
 
@@ -31,7 +30,9 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Grid HorizontalAlignment="Left" Width="228">
+            <Grid HorizontalAlignment="Left"
+                  Width="228"
+                  MouseLeftButtonDown="MouseLeftButtonDownEvent">
 
                 <Border Background="#272B2F" CornerRadius="20,0,0,20" />
 
@@ -64,24 +65,8 @@
 
                     </Menu:Btn>
 
-
                     <Menu:Btn Style="{StaticResource BtnStyle}"
-                              Command="{Binding ProductsCommand}">
-
-                        <Grid>
-
-                            <Image Source="Images/img_product.png"
-                                   Style="{StaticResource Image_Style}" />
-
-                            <TextBlock Text="病毒检测"
-                                       Style="{StaticResource Text_Style}" />
-
-                        </Grid>
-
-                    </Menu:Btn>
-
-                    <Menu:Btn Style="{StaticResource BtnStyle}"
-                              Command="{Binding OrdersCommand}">
+                              Command="{Binding PEFileAnalysisCommand}">
 
                         <Grid>
 

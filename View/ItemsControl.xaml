@@ -21,7 +21,7 @@
                Height="32" />
         <TextBlock Text="{Binding FileName, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FileNameToExtensionConverter}, FallbackValue=FileExtension}"
                    ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"
-                   Margin="0,2,0,0"
+                   Margin="0,2,125,0"
                    TextWrapping="NoWrap"
                    Foreground="#ffffff"
                    TextTrimming="CharacterEllipsis"
@@ -32,7 +32,7 @@
                                          Selection="{Binding Selection, UpdateSourceTrigger=PropertyChanged, FallbackValue=Selection}"
                                          Foreground="#ffffff"
                                          ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"
-                                         Margin="37,2,132,0"
+                                         Margin="37,2,300,0"
                                          VerticalAlignment="Top"
                                          FontWeight="Bold" />
         <TextBlock Text="{Binding FilePath, UpdateSourceTrigger=PropertyChanged, FallbackValue=FilePath}"
@@ -43,12 +43,30 @@
                    VerticalAlignment="Bottom" />
         <TextBlock Text="{Binding FileSizeBytes, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FileSizeFormatterConverter}, FallbackValue=FileSizeByte}"
                    ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"
-                   Margin="0,2,62,0"
+                   Margin="0,2,200,0"
                    Foreground="#ffffff"
                    TextWrapping="NoWrap"
                    TextTrimming="CharacterEllipsis"
                    VerticalAlignment="Top"
                    HorizontalAlignment="Right"
                    Width="65" />
+        <TextBlock Text="{Binding IsScanComplete, UpdateSourceTrigger=PropertyChanged}"
+                   Foreground="{Binding IsScanCompleteColor, UpdateSourceTrigger=PropertyChanged}"
+                   ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"
+                   Margin="0,2,75,0"
+                   FontSize="13"
+                   FontWeight="Light"
+                   VerticalAlignment="Top"
+                   HorizontalAlignment="Right" />
+        <!--<StackPanel Margin="0,2,0,0"
+                    Width="65"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">-->
+            <CheckBox IsChecked="{Binding IsSkipScan, UpdateSourceTrigger=PropertyChanged}"
+                  Margin="0,2,30,0"
+                  VerticalAlignment="Top"
+                  HorizontalAlignment="Right"/>
+
     </Grid>
 </UserControl>

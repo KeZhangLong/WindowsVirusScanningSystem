@@ -11,14 +11,10 @@
         <view:DocumentScanningFunction />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type vm:ProductVM}">
-        <view:Products />
+    <DataTemplate DataType="{x:Type vm:PEFileAnalysisVM}">
+        <view:PEFileAnalysis />
     </DataTemplate>
-
-    <DataTemplate DataType="{x:Type vm:OrderVM}">
-        <view:Orders />
-    </DataTemplate>
-
+    
     <DataTemplate DataType="{x:Type vm:WpfHexEditorVM}">
         <view:WpfHexEditor/>
     </DataTemplate>

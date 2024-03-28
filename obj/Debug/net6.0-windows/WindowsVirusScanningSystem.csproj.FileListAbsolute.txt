@@ -28,12 +28,6 @@ C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\Styl
 C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\Styles\Text.baml
 C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\App.baml
 C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\Utilities\DataTemplate.baml
-C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\Orders.g.cs
-C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\Products.g.cs
-C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\Transactions.g.cs
-C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\Orders.baml
-C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\Products.baml
-C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\Transactions.baml
 C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\DocumentScanningFunction.g.cs
 C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\DocumentScanningFunction.baml
 C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\bin\Debug\net6.0-windows\Ookii.Dialogs.Wpf.dll
@@ -49,3 +43,9 @@ C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\bin\Debug\net6.0-windows\pt-B
 C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\bin\Debug\net6.0-windows\ru-RU\WPFHexaEditor.resources.dll
 C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\bin\Debug\net6.0-windows\zh-CN\WPFHexaEditor.resources.dll
 C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\WpfHexEditor.baml
+C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\PEFileAnalysis.g.cs
+C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\PEFileAnalysis.baml
+C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\PEItemsControl.g.cs
+C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\PEItemsControl.baml
+C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\PEFileDosConten.g.cs
+C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\PEFileDosConten.baml

@@ -65,33 +65,23 @@
             </Grid>
 
             <Grid Grid.Row="1">
-                <Viewbox>
-                    <StackPanel Orientation="Horizontal">
-                        <Button Margin="5 0"
-                                Command="{Binding SearchFolderPathCommand}"
-                                Style="{StaticResource BoxBtnStyle}"
-                                Content="病毒检测"
-                                VerticalAlignment="Center"
-                                Width="150"
-                                Height="35" />
-                        <Button Margin="5 0"
-                                Command="{Binding SearchFolderPathCommand}"
-                                Style="{StaticResource BoxBtnStyle}"
-                                Content="PE文件分析"
-                                VerticalAlignment="Center"
-                                Width="150"
-                                Height="35" />
-                        <Button Margin="5 0"
-                                Command="{Binding SearchFolderPathCommand}"
-                                Style="{StaticResource BoxBtnStyle}"
-                                Content="十六进制编辑器"
-                                VerticalAlignment="Center"
-                                Width="150"
-                                Height="35" />
-                    </StackPanel>
-                </Viewbox>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="200" />
+                </Grid.ColumnDefinitions>
+
+                <ProgressBar Margin="25 10 10 10" />
+
+                <Button Margin="5 0"
+                        Grid.Column="1"
+                        Command="{Binding VirusDetectionCommand}"
+                        Style="{StaticResource BoxBtnStyle}"
+                        Content="病毒检测"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Width="150"
+                        Height="35" />
             </Grid>
-            
         </Grid>
 
         <Border  Grid.Row="1" Padding="15">
@@ -101,10 +91,50 @@
                     <ColumnDefinition Width="0.35*" />
                 </Grid.ColumnDefinitions>
 
-                <ListBox Background="#212529" ItemsSource="{Binding Results, UpdateSourceTrigger=PropertyChanged}"
+                <ListBox Background="#212529"
+                         ItemsSource="{Binding Results, UpdateSourceTrigger=PropertyChanged}"
                          HorizontalContentAlignment="Stretch"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                          Margin="0,0,5,0">
+                    <ListBox.Template>
+                        <ControlTemplate>
+                            <Border BorderBrush="#ffffff" Padding="4" BorderThickness="1">
+                                <DockPanel LastChildFill="True">
+                                    <Grid DockPanel.Dock="Top"
+                                          Height="30">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="120"></ColumnDefinition>
+                                            <ColumnDefinition Width="100"></ColumnDefinition>
+                                            <ColumnDefinition Width="50"></ColumnDefinition>
+                                            <ColumnDefinition Width="100"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0"
+                                               Foreground="#ffffff"
+                                               HorizontalAlignment="Right">名称</Label>
+                                        <Label Grid.Column="1"
+                                               Foreground="#ffffff"></Label>
+                                        <Label Grid.Column="2"
+                                               Foreground="#ffffff"
+                                               HorizontalAlignment="Right">文件大小</Label>
+                                        <Label Grid.Column="3"
+                                               Foreground="#ffffff"
+                                               HorizontalAlignment="Center">文件后缀</Label>
+                                        <Label Grid.Column="4"
+                                               Foreground="#ffffff"
+                                               HorizontalAlignment="Right">状态</Label>
+                                        <Label Grid.Column="5"
+                                               HorizontalAlignment="Center"
+                                               Foreground="#ffffff">是否跳过检测</Label>
+                                    </Grid>
+                                    <ScrollViewer Focusable="False">
+                                        <ItemsPresenter></ItemsPresenter>
+                                    </ScrollViewer>
+                                </DockPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </ListBox.Template>
                     <!-- The ItemsSource is a ResultItemViewModel collection, -->
                     <!-- Meaning you can use the ItemTemplate to bind to the ViewModel -->
                     <!-- The DataContext = {Binding} because that is the ResultItemViewModel -->

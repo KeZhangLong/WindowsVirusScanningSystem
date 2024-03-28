@@ -15,8 +15,7 @@ namespace WindowsVirusScanningSystem.ViewModel
         public NavigationVM()
         {
             HomeCommand = new RelayCommand(Home);
-            ProductsCommand = new RelayCommand(Product);
-            OrdersCommand = new RelayCommand(Order);
+            PEFileAnalysisCommand = new RelayCommand(PEFileAnalysis);
             WpfHexEditorCommand = new RelayCommand(WpfHexEditor);
             DocumentScanningFunctionCommand = new RelayCommand(DocumentScanningFunction);
 
@@ -32,15 +31,13 @@ namespace WindowsVirusScanningSystem.ViewModel
         }
 
         public ICommand HomeCommand { get; set; }
-        public ICommand ProductsCommand { get; set; }
-        public ICommand OrdersCommand { get; set; }
+        public ICommand PEFileAnalysisCommand { get; set; }
         public ICommand WpfHexEditorCommand { get; set; }
         public ICommand DocumentScanningFunctionCommand { get; set; }
 
         private void Home(object obj) => CurrentView = new HomeVM();
         private void DocumentScanningFunction(object obj) => CurrentView = new DocumentScanningFunction();
-        private void Product(object obj) => CurrentView = new ProductVM();
-        private void Order(object obj) => CurrentView = new OrderVM();
+        private void PEFileAnalysis(object obj) => CurrentView = new PEFileAnalysisVM();
         private void WpfHexEditor(object obj) => CurrentView = new WpfHexEditorVM();
     }
 }

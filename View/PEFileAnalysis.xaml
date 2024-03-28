@@ -1,0 +1,246 @@
+﻿<UserControl x:Class="WindowsVirusScanningSystem.View.PEFileAnalysis"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:card="clr-namespace:WindowsVirusScanningSystem.View"
+             xmlns:local="clr-namespace:WindowsVirusScanningSystem.View"
+             mc:Ignorable="d"
+             d:DesignHeight="650"
+             d:DesignWidth="722"
+             x:Name="window"
+             Style="{StaticResource Page_Style}">
+    <Grid Margin="10 80 10 10">
+        <Border x:Name="Window1">
+            <Border.RenderTransform>
+                <TranslateTransform X="0" />
+            </Border.RenderTransform>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="0.9*" />
+                </Grid.RowDefinitions>
+
+                <Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="90" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Foreground="#ffffff"
+                               Content="搜索路径："
+                               FontSize="18"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Top" />
+                        <TextBox Grid.Column="1"
+                                 Text="{Binding folderPath, UpdateSourceTrigger=PropertyChanged}"
+                                 Height="35"
+                                 TextWrapping="NoWrap"
+                                 FontSize="16"
+                                 Padding="5"
+                                 VerticalAlignment="Top" />
+                        <Button Grid.Column="2"
+                                Command="{Binding SearchFileOfFolderPathCommand}"
+                                Style="{StaticResource BoxBtnStyle}"
+                                Content="浏览"
+                                VerticalAlignment="Top"
+                                Width="80"
+                                Height="35" />
+                        <!--<Button Grid.Column="3"
+                        Command="{Binding SearchFolderPathCommand}"
+                        Style="{StaticResource BoxBtnStyle}"
+                        Content="返回"
+                        VerticalAlignment="Top"
+                        Width="80"
+                        Height="35" />-->
+                    </Grid>
+                </Grid>
+
+                <Border  Grid.Row="1"
+                         Padding="15">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="0.35*" />
+                        </Grid.ColumnDefinitions>
+
+                        <ListBox Background="#212529"
+                                 ItemsSource="{Binding Results, UpdateSourceTrigger=PropertyChanged}"
+                                 MouseDoubleClick="ItemInfoPageMove_Click"
+                                 HorizontalContentAlignment="Stretch"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                 Margin="0,0,5,0">
+                            <ListBox.Template>
+                                <ControlTemplate>
+                                    <Border BorderBrush="#ffffff"
+                                            Padding="4"
+                                            BorderThickness="1">
+                                        <DockPanel LastChildFill="True">
+                                            <Grid DockPanel.Dock="Top"
+                                                  Height="30">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="100"></ColumnDefinition>
+                                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="120"></ColumnDefinition>
+                                                    <ColumnDefinition Width="100"></ColumnDefinition>
+                                                    <ColumnDefinition Width="50"></ColumnDefinition>
+                                                    <ColumnDefinition Width="100"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Column="0"
+                                                       Foreground="#ffffff"
+                                                       HorizontalAlignment="Right">名称</Label>
+                                                <Label Grid.Column="1"
+                                                       Foreground="#ffffff"></Label>
+                                                <Label Grid.Column="2"
+                                                       Foreground="#ffffff"
+                                                       HorizontalAlignment="Right">文件大小</Label>
+                                                <Label Grid.Column="3"
+                                                       Foreground="#ffffff"
+                                                       HorizontalAlignment="Center">文件后缀</Label>
+                                                <Label Grid.Column="4"
+                                                       Foreground="#ffffff"
+                                                       HorizontalAlignment="Right"></Label>
+                                                <Label Grid.Column="5"
+                                                       HorizontalAlignment="Center"
+                                                       Foreground="#ffffff">PE文件</Label>
+                                            </Grid>
+                                            <ScrollViewer Focusable="False">
+                                                <ItemsPresenter />
+                                            </ScrollViewer>
+                                        </DockPanel>
+                                    </Border>
+                                </ControlTemplate>
+                            </ListBox.Template>
+                            <!-- The ItemsSource is a ResultItemViewModel collection, -->
+                            <!-- Meaning you can use the ItemTemplate to bind to the ViewModel -->
+                            <!-- The DataContext = {Binding} because that is the ResultItemViewModel -->
+
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <card:PEItemsControl DataContext="{Binding}" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                        <ListBox Background="#212529"
+                                 Grid.Column="1"
+                                 Margin="5 0 0 0">
+                        </ListBox>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+
+        <Border x:Name="window2">
+            <Border.RenderTransform>
+                <TranslateTransform X="{Binding ElementName=window,Path=ActualWidth}" />
+            </Border.RenderTransform>
+
+            <Grid>
+                <Button Click="ItemPageReturn_Click"
+                        Style="{StaticResource BoxBtnStyle}"
+                        Content="返回"
+                        Margin="0 5 10 0"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Right"
+                        Width="80"
+                        Height="35">
+                    <!--<Button.Triggers>
+                        <EventTrigger RoutedEvent="ListBoxItem.MouseLeftButtonDown">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="window1"
+                                                     Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.X)"
+                                                     To="0"
+                                                     Duration="0:0:0:0.5" />
+
+                                    <DoubleAnimation Storyboard.TargetName="window1"
+                                                     Storyboard.TargetProperty="Opacity"
+                                                     To="1.0"
+                                                     Duration="0:0:0:0.5" />
+
+                                    <DoubleAnimation Storyboard.TargetName="{Binding Path=Name, ElementName=window2}"
+                                                     Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.X)"
+                                                     To="722"
+                                                     Duration="0:0:0:0.3" />
+
+                                    <DoubleAnimation Storyboard.TargetName="{Binding Path=Name, ElementName=window2}"
+                                                     Storyboard.TargetProperty="Opacity"
+                                                     To="0.0"
+                                                     Duration="0:0:0:0.3" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Button.Triggers>-->
+                </Button>
+
+                <TextBlock x:Name="DosFileName"
+                           Margin="20 5 0 0"
+                           VerticalAlignment="Top"
+                           HorizontalAlignment="Left"
+                           Foreground="#ffffff"
+                           FontSize="15"
+                           TextWrapping="NoWrap"
+                           TextTrimming="CharacterEllipsis" />
+                
+                <ListBox Background="#212529"
+                         x:Name="DosFileConent"
+                    HorizontalContentAlignment="Stretch"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    Margin="0,65,5,15">
+                    <ListBox.Template>
+                        <ControlTemplate>
+                            <Border BorderBrush="#ffffff"
+                                    Padding="4"
+                                    BorderThickness="1">
+                                <DockPanel LastChildFill="True">
+                                    <Grid DockPanel.Dock="Top"
+                                          Height="30">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="120"></ColumnDefinition>
+                                            <ColumnDefinition Width="100"></ColumnDefinition>
+                                            <ColumnDefinition Width="50"></ColumnDefinition>
+                                            <ColumnDefinition Width="100"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0"
+                                               Foreground="#ffffff"
+                                               HorizontalAlignment="Right">DOS头文件</Label>
+                                        <Label Grid.Column="1"
+                                               Foreground="#ffffff"></Label>
+                                        <Label Grid.Column="2"
+                                               Foreground="#ffffff"
+                                               HorizontalAlignment="Right">文件内容</Label>
+                                        <Label Grid.Column="3"
+                                               Foreground="#ffffff"
+                                               HorizontalAlignment="Center"></Label>
+                                        <Label Grid.Column="4"
+                                               Foreground="#ffffff"
+                                               HorizontalAlignment="Right"></Label>
+                                        <Label Grid.Column="5"
+                                               HorizontalAlignment="Center"
+                                               Foreground="#ffffff">描述</Label>
+                                    </Grid>
+                                    <ScrollViewer Focusable="False">
+                                        <ItemsPresenter />
+                                    </ScrollViewer>
+                                </DockPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </ListBox.Template>
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <card:PEFileDosConten DataContext="{Binding}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
