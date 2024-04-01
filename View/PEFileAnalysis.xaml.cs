@@ -23,16 +23,17 @@ namespace WindowsVirusScanningSystem.View
 {
     public class DosItem
     {
-        public DosItem(string _head, string _content)
+        public DosItem(string _head, string _content,string _introduce)
         {
             Head = _head;
             Content = _content;
+            Introduce = _introduce;
         }
         public string Head { get; set; }
 
         public string Content { get; set; }
 
-        //public string introduce { get; set; }
+        public string Introduce { get; set; }
     }
 
     /// <summary>
@@ -63,6 +64,11 @@ namespace WindowsVirusScanningSystem.View
 
             ItemViewModel item = (ItemViewModel)listBox.SelectedItem;
 
+            if (item == null)
+            {
+                return;
+            }
+
             if (item.IsPE)//是PE文件
             {
                 ItemPgaeShow();
@@ -71,28 +77,30 @@ namespace WindowsVirusScanningSystem.View
 
                 PEHelper pEHelper = new PEHelper(item.FilePath);
 
-                    DosItems.Add(new DosItem("e_magic", BitConverter.ToString(pEHelper._DosHeader.e_magic)));
-                DosItems.Add(new DosItem("e_cblp", BitConverter.ToString(pEHelper._DosHeader.e_cblp)));
-                DosItems.Add(new DosItem("e_cp", BitConverter.ToString(pEHelper._DosHeader.e_cp)));
-                DosItems.Add(new DosItem("e_crlc", BitConverter.ToString(pEHelper._DosHeader.e_crlc)));
-                DosItems.Add(new DosItem("e_cparhdr", BitConverter.ToString(pEHelper._DosHeader.e_cparhdr)));
-                DosItems.Add(new DosItem("e_minalloc", BitConverter.ToString(pEHelper._DosHeader.e_minalloc)));
-                DosItems.Add(new DosItem("e_maxalloc", BitConverter.ToString(pEHelper._DosHeader.e_maxalloc)));
-                DosItems.Add(new DosItem("e_ss", BitConverter.ToString(pEHelper._DosHeader.e_ss)));
-                DosItems.Add(new DosItem("e_sp", BitConverter.ToString(pEHelper._DosHeader.e_sp)));
-                DosItems.Add(new DosItem("e_csum", BitConverter.ToString(pEHelper._DosHeader.e_csum)));
-                DosItems.Add(new DosItem("e_ip", BitConverter.ToString(pEHelper._DosHeader.e_ip)));
-                DosItems.Add(new DosItem("e_cs", BitConverter.ToString(pEHelper._DosHeader.e_cs)));
-                DosItems.Add(new DosItem("e_rva", BitConverter.ToString(pEHelper._DosHeader.e_rva)));
-                DosItems.Add(new DosItem("e_fg", BitConverter.ToString(pEHelper._DosHeader.e_fg)));
-                DosItems.Add(new DosItem("e_bl1", BitConverter.ToString(pEHelper._DosHeader.e_bl1)));
-                DosItems.Add(new DosItem("e_fg", BitConverter.ToString(pEHelper._DosHeader.e_fg)));
-                DosItems.Add(new DosItem("e_oemid", BitConverter.ToString(pEHelper._DosHeader.e_oemid)));
-                DosItems.Add(new DosItem("e_oeminfo", BitConverter.ToString(pEHelper._DosHeader.e_oeminfo)));
-                DosItems.Add(new DosItem("e_bl2", BitConverter.ToString(pEHelper._DosHeader.e_bl2)));
-                DosItems.Add(new DosItem("e_PESTAR", BitConverter.ToString(pEHelper._DosHeader.e_PESTAR)));
+                    DosItems.Add(new DosItem("e_magic", BitConverter.ToString(pEHelper._DosHeader.e_magic), "Magic number"));
+                DosItems.Add(new DosItem("e_cblp", BitConverter.ToString(pEHelper._DosHeader.e_cblp), "Bytes on last page of file"));
+                DosItems.Add(new DosItem("e_cp", BitConverter.ToString(pEHelper._DosHeader.e_cp), "Pages in file"));
+                DosItems.Add(new DosItem("e_crlc", BitConverter.ToString(pEHelper._DosHeader.e_crlc), "Relocations"));
+                DosItems.Add(new DosItem("e_cparhdr", BitConverter.ToString(pEHelper._DosHeader.e_cparhdr), "Size of header in paragraphs"));
+                DosItems.Add(new DosItem("e_minalloc", BitConverter.ToString(pEHelper._DosHeader.e_minalloc), "Minimum extra paragraphs needed"));
+                DosItems.Add(new DosItem("e_maxalloc", BitConverter.ToString(pEHelper._DosHeader.e_maxalloc), "Maximum extra paragraphs needed"));
+                DosItems.Add(new DosItem("e_ss", BitConverter.ToString(pEHelper._DosHeader.e_ss), "Initial (relative) SS value"));
+                DosItems.Add(new DosItem("e_sp", BitConverter.ToString(pEHelper._DosHeader.e_sp), "Initial SP value"));
+                DosItems.Add(new DosItem("e_csum", BitConverter.ToString(pEHelper._DosHeader.e_csum), "Checksum"));
+                DosItems.Add(new DosItem("e_ip", BitConverter.ToString(pEHelper._DosHeader.e_ip), "Initial IP value"));
+                DosItems.Add(new DosItem("e_cs", BitConverter.ToString(pEHelper._DosHeader.e_cs), "Initial (relative) CS value"));
+
+                DosItems.Add(new DosItem("e_rva", BitConverter.ToString(pEHelper._DosHeader.e_rva), ""));
+                DosItems.Add(new DosItem("e_fg", BitConverter.ToString(pEHelper._DosHeader.e_fg), ""));
+                DosItems.Add(new DosItem("e_bl1", BitConverter.ToString(pEHelper._DosHeader.e_bl1), ""));
+                DosItems.Add(new DosItem("e_fg", BitConverter.ToString(pEHelper._DosHeader.e_fg), ""));
 
 
+                DosItems.Add(new DosItem("e_oemid", BitConverter.ToString(pEHelper._DosHeader.e_oemid), "OEM identifier (for e_oeminfo)"));
+                DosItems.Add(new DosItem("e_oeminfo", BitConverter.ToString(pEHelper._DosHeader.e_oeminfo), "OEM information; e_oemid specific"));
+
+                DosItems.Add(new DosItem("e_bl2", BitConverter.ToString(pEHelper._DosHeader.e_bl2), ""));
+                DosItems.Add(new DosItem("e_PESTAR", BitConverter.ToString(pEHelper._DosHeader.e_PESTAR), ""));
 
                 DosFileConent.ItemsSource = DosItems;
             }

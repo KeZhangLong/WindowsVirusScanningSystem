@@ -145,8 +145,45 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
 
-                <ListBox Background="#212529" Grid.Column="1" Margin="5 0 0 0">
-                    
+                <ListBox Background="#212529"
+                         Grid.Column="1"
+                         ItemsSource="{Binding SearchRecordResults, UpdateSourceTrigger=PropertyChanged}"
+                         Margin="5 0 0 0">
+
+                    <ListBox.Template>
+                        <ControlTemplate>
+                            <Border BorderBrush="#ffffff"
+                                    Padding="4"
+                                    BorderThickness="1">
+                                <DockPanel LastChildFill="True">
+                                    <Grid DockPanel.Dock="Top"
+                                          Height="30">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="100"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0"
+                                               Foreground="#ffffff"
+                                               HorizontalAlignment="Center">名称</Label>
+                                        <!--<Label Grid.Column="1" HorizontalAlignment="Center"
+                                                       Foreground="#ffffff">时间</Label>-->
+                                    </Grid>
+                                    <ScrollViewer Focusable="False">
+                                        <ItemsPresenter />
+                                    </ScrollViewer>
+                                </DockPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </ListBox.Template>
+                    <!-- The ItemsSource is a ResultItemViewModel collection, -->
+                    <!-- Meaning you can use the ItemTemplate to bind to the ViewModel -->
+                    <!-- The DataContext = {Binding} because that is the ResultItemViewModel -->
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <card:SearchRecord DataContext="{Binding}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
                 </ListBox>
             </Grid>
         </Border>

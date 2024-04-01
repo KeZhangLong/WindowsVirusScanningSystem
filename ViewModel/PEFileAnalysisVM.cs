@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,8 @@ namespace WindowsVirusScanningSystem.ViewModel
     {
         private readonly PageModel _pageModel;
         public ObservableCollection<ItemViewModel> Results { get; set; }
+
+        public ObservableCollection<SearchRecordItem> SearchRecordResults { get; set; }
 
         //查询文件夹的路径
         public string? folderPath
@@ -82,9 +85,25 @@ namespace WindowsVirusScanningSystem.ViewModel
 
             Results = new ObservableCollection<ItemViewModel>();
 
+            SearchRecordResults = new ObservableCollection<SearchRecordItem>();
+
             SearchFileOfFolderPathCommand = new RelayCommand(SearchFileOfFolderPath);
 
             ItemDoubleClickCommand = new RelayCommand(ItemDoubleClick);
+
+            RefreshDbData();
+        }
+
+        private void RefreshDbData()
+        {
+            DataTable dt = SQLiteHelper.Instance.GetDataTable("2");
+
+            int RowCount = dt.Rows.Count;
+
+            for (int i = 0; i < RowCount; i++)
+            {
+                SearchRecordResults.Add(new SearchRecordItem(dt.Rows[i][0].ToString(), dt.Rows[i][1].ToString(), dt.Rows[i][2].ToString()));
+            }
         }
 
        
@@ -158,6 +177,10 @@ namespace WindowsVirusScanningSystem.ViewModel
                             StartSearchNonRecursively();
 
                             SetSearchingStatus(false);
+
+                            SQLiteHelper.Instance.InsertData(DateTime.Now.ToString("yyyy-MMM-dd-HH-mm-ss"), folderPath, folderPath, "2");
+
+                            RefreshDbData();
                         });
                     }
                 }

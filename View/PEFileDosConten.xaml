@@ -29,7 +29,7 @@
         <controls:HighlightableTextBlock Text="{Binding Head, UpdateSourceTrigger=PropertyChanged, FallbackValue=FileName}"
                                          Foreground="#ffffff"
                                          ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"
-                                         Margin="37,2,300,0"
+                                         Margin="37,2,320,0"
                                          VerticalAlignment="Top"
                                          FontWeight="Bold" />
         <!--<TextBlock Text="{Binding FilePath, UpdateSourceTrigger=PropertyChanged, FallbackValue=FilePath}"
@@ -40,13 +40,13 @@
                    VerticalAlignment="Bottom" />-->
         <TextBlock Text="{Binding Content, UpdateSourceTrigger=PropertyChanged}"
                    ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"
-                   Margin="0,2,180,0"
+                   Margin="0,2,250,0"
                    Foreground="#ffffff"
                    TextWrapping="NoWrap"
                    TextTrimming="CharacterEllipsis"
                    VerticalAlignment="Top"
                    HorizontalAlignment="Right"
-                   Width="65" />
+                   Width="200" />
         <!--<TextBlock Text="{Binding IsScanComplete, UpdateSourceTrigger=PropertyChanged}"
                    Foreground="{Binding IsScanCompleteColor, UpdateSourceTrigger=PropertyChanged}"
                    ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"
@@ -55,12 +55,12 @@
                    FontWeight="Light"
                    VerticalAlignment="Top"
                    HorizontalAlignment="Right" />-->
-        <!--<TextBlock Text="{Binding IsPE, UpdateSourceTrigger=PropertyChanged,Converter={StaticResource FileIsPEConverter}}"
-                   Foreground="{Binding IsScanCompleteColor, UpdateSourceTrigger=PropertyChanged}"
+        <TextBlock Text="{Binding Introduce, UpdateSourceTrigger=PropertyChanged}"
+                   Foreground="#ffffff"
                    ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"
                    Margin="0,2,20,0"
                    FontSize="13"
                    VerticalAlignment="Top"
-                   HorizontalAlignment="Right" />-->
+                   HorizontalAlignment="Right" />
     </Grid>
 </UserControl>
