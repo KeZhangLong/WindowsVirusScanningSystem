@@ -80,6 +80,24 @@
 
                     </Menu:Btn>
 
+
+                    <Menu:Btn Style="{StaticResource BtnStyle}"
+                              Command="{Binding SampleImportCommand}">
+
+                        <Grid>
+
+                            <Image Source="Images/img_product.png"
+                                   Style="{StaticResource Image_Style}" />
+
+                            <TextBlock Text="病毒样本导入"
+                                       Style="{StaticResource Text_Style}" />
+
+                        </Grid>
+
+
+
+                    </Menu:Btn>
+
                     <Menu:Btn Style="{StaticResource BtnStyle}"
                               Command="{Binding WpfHexEditorCommand}">
 
@@ -92,9 +110,9 @@
                                        Style="{StaticResource Text_Style}" />
 
                         </Grid>
-
+                        
                     </Menu:Btn>
-                    
+
                 </StackPanel>
             </Grid>
 

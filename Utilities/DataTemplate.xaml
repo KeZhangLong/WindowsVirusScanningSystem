@@ -15,7 +15,11 @@
         <view:PEFileAnalysis />
     </DataTemplate>
     
+    <DataTemplate DataType="{x:Type vm:SampleImportVM}">
+        <view:SampleImport/>
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type vm:WpfHexEditorVM}">
-        <view:WpfHexEditor/>
+        <view:WpfHexEditor />
     </DataTemplate>
 </ResourceDictionary>

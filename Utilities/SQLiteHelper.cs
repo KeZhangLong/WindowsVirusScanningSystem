@@ -5,6 +5,7 @@ using System.Reflection;
 using System.IO;
 using System.Xml.Linq;
 using System.Collections.Generic;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace WindowsVirusScanningSystem.Utilities
 {
@@ -58,6 +59,8 @@ namespace WindowsVirusScanningSystem.Utilities
             if (CheckDbIsExist())//数据库存在
             {
                 NewTable(this._SQLiteConnString, "SweepRecord");//新建数据表
+
+                NewTable(this._SQLiteConnString, "VirusSample");
             }
             else
             {
@@ -133,7 +136,16 @@ namespace WindowsVirusScanningSystem.Utilities
                 OpenDb();
                 SQLiteCommand cmd = new SQLiteCommand();
                 cmd.Connection = _SQLiteConn;
-                cmd.CommandText = $"CREATE TABLE {_tableName}(Time varchar,FileName varchar,FilePath varchar,Type varchar)";
+
+                if(tableName == "VirusSample")
+                {
+                    cmd.CommandText = $"CREATE TABLE {tableName}(SampleName varchar)";
+                }
+                else
+                {
+                    cmd.CommandText = $"CREATE TABLE {tableName}(Time varchar,FileName varchar,FilePath varchar,Type varchar)";
+                }
+                
                 cmd.ExecuteNonQuery();
             }
             CloseDb();
@@ -172,6 +184,24 @@ namespace WindowsVirusScanningSystem.Utilities
             }
         }
 
+        public void InsertSampleData(string sample)
+        {
+            SQLiteHelper.Instance.OpenDb();
+
+            // 插入数据
+            string commandStr = $"INSERT OR IGNORE INTO VirusSample (SampleName) VALUES (@SampleName)";
+
+            using (SQLiteCommand insertDataCommand = new SQLiteCommand(commandStr, SQLiteHelper.Instance._SQLiteConn))
+            {
+                insertDataCommand.Parameters.AddWithValue("@SampleName", sample); // 设置参数值，避免SQL注入
+
+                insertDataCommand.ExecuteNonQuery(); // 执行插入数据的SQL语句
+            }
+
+            SQLiteHelper.Instance.CloseDb();
+        }
+
+        //插入搜索记录
         public void InsertData(string time, string fileName, string filePath, string type)
         {
             SQLiteHelper.Instance.OpenDb();
@@ -222,7 +252,7 @@ namespace WindowsVirusScanningSystem.Utilities
                     this.Commit();
                 }
                 this._SQLiteConn.Close();
-                this._SQLiteConn = null;
+                //this._SQLiteConn = null;
             }
         }
 

@@ -65,3 +65,5 @@ C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\bin\Debug\net6.0-windows\runt
 C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\bin\Debug\net6.0-windows\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\SearchRecord.g.cs
 C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\SearchRecord.baml
+C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\SampleImport.g.cs
+C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\SampleImport.baml

@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\App.xaml
-14-1772637360
+15522901662
 299942667
-371024033804
+39143789988
 2101831904827
-MainWindow.xaml;Styles\Button.xaml;Styles\Image.xaml;Styles\Page.xaml;Styles\Text.xaml;Utilities\DataTemplate.xaml;View\DocumentScanningFunction.xaml;View\Home.xaml;View\ItemsControl.xaml;View\PEFileAnalysis.xaml;View\PEFileDosConten.xaml;View\PEItemsControl.xaml;View\SearchRecord.xaml;View\WpfHexEditor.xaml;
+MainWindow.xaml;Styles\Button.xaml;Styles\Image.xaml;Styles\Page.xaml;Styles\Text.xaml;Utilities\DataTemplate.xaml;View\DocumentScanningFunction.xaml;View\Home.xaml;View\ItemsControl.xaml;View\PEFileAnalysis.xaml;View\PEFileDosConten.xaml;View\PEItemsControl.xaml;View\SampleImport.xaml;View\SearchRecord.xaml;View\WpfHexEditor.xaml;
 
 False
 
