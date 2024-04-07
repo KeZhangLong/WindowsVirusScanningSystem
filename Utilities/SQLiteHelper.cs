@@ -15,6 +15,8 @@ namespace WindowsVirusScanningSystem.Utilities
 
         private string _tableName = "SweepRecord";//表名称
 
+        private string VirusDB = "VirusSample";
+
         private string filePath = "";//数据库路径
 
         private SQLiteConnection _SQLiteConn = null;     //连接对象
@@ -24,8 +26,6 @@ namespace WindowsVirusScanningSystem.Utilities
         private bool _IsRunTrans = false;        //事务运行标识
 
         private bool _AutoCommit = false; //事务自动提交标识
-
-
 
         private string _SQLiteConnString = null; //连接字符串
 
@@ -58,9 +58,9 @@ namespace WindowsVirusScanningSystem.Utilities
 
             if (CheckDbIsExist())//数据库存在
             {
-                NewTable(this._SQLiteConnString, "SweepRecord");//新建数据表
+                NewTable(this._SQLiteConnString, _tableName);//新建数据表
 
-                NewTable(this._SQLiteConnString, "VirusSample");
+                NewTable(this._SQLiteConnString, VirusDB);
             }
             else
             {
@@ -70,7 +70,7 @@ namespace WindowsVirusScanningSystem.Utilities
         }
 
         /// <summary>
-        /// 检测表是否存在
+        /// 检测库是否存在
         /// </summary>
         /// 要检查数据库是否存在，我们可以使用SQL语句来查询系统表sqlite_master。sqlite_master表是SQLite数据库系统中的一个系统表，
         /// 它包含了数据库中所有表的信息。我们可以通过查询sqlite_master表中的特定表名来判断数据库是否存在。
@@ -105,24 +105,6 @@ namespace WindowsVirusScanningSystem.Utilities
             }
         }
 
-        /// <summary>
-        /// 新建数据库文件
-        /// </summary>
-        /// <param name="dbPath">数据库文件路径及名称</param>
-        /// <returns>新建成功，返回true，否则返回false</returns>
-        public Boolean NewDbFile(string dbPath)
-        {
-            try
-            {
-                SQLiteConnection.CreateFile(dbPath);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("新建数据库文件" + dbPath + "失败：" + ex.Message);
-            }
-        }
-
 
         /// <summary>
         /// 创建表
@@ -134,20 +116,22 @@ namespace WindowsVirusScanningSystem.Utilities
             if (_SQLiteConn.State != System.Data.ConnectionState.Open)
             {
                 OpenDb();
-                SQLiteCommand cmd = new SQLiteCommand();
-                cmd.Connection = _SQLiteConn;
-
-                if(tableName == "VirusSample")
-                {
-                    cmd.CommandText = $"CREATE TABLE {tableName}(SampleName varchar)";
-                }
-                else
-                {
-                    cmd.CommandText = $"CREATE TABLE {tableName}(Time varchar,FileName varchar,FilePath varchar,Type varchar)";
-                }
-                
-                cmd.ExecuteNonQuery();
             }
+
+            SQLiteCommand cmd = new SQLiteCommand();
+            cmd.Connection = _SQLiteConn;
+
+            if (tableName == "VirusSample")
+            {
+                cmd.CommandText = $"CREATE TABLE {tableName}(SampleName varchar)";
+            }
+            else
+            {
+                cmd.CommandText = $"CREATE TABLE {tableName}(Time varchar,FileName varchar,FilePath varchar,Type varchar)";
+            }
+
+            cmd.ExecuteNonQuery();
+
             CloseDb();
         }
 
@@ -184,6 +168,34 @@ namespace WindowsVirusScanningSystem.Utilities
             }
         }
 
+        public int DetectVirus(string sample)
+        {
+            try
+            {
+                string sql = $"SELECT * FROM {VirusDB} WHERE SampleName = '{sample}';";
+
+                if (_SQLiteConn.State != System.Data.ConnectionState.Open)
+                {
+                    OpenDb();
+                }
+
+                using (SQLiteCommand cmd = new SQLiteCommand(sql, _SQLiteConn))
+                {
+
+                    int result = cmd.ExecuteNonQuery();
+
+                    CloseDb();
+
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"搜索样本病毒库错误：" + ex.Message);
+            }
+        }
+
+        //插入病毒样本数据
         public void InsertSampleData(string sample)
         {
             SQLiteHelper.Instance.OpenDb();

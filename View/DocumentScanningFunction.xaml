@@ -70,13 +70,15 @@
                     <ColumnDefinition Width="200" />
                 </Grid.ColumnDefinitions>
 
-                <ProgressBar Margin="25 10 10 10" />
+                <ProgressBar Margin="25 10 10 10" 
+                             Maximum="{Binding FileCount}"
+                             Value="{Binding Progress}"/>
 
                 <Button Margin="5 0"
                         Grid.Column="1"
                         Command="{Binding VirusDetectionCommand}"
                         Style="{StaticResource BoxBtnStyle}"
-                        Content="病毒检测"
+                        Content="{Binding BtnState}"
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center"
                         Width="150"
@@ -149,7 +151,6 @@
                          Grid.Column="1"
                          ItemsSource="{Binding SearchRecordResults, UpdateSourceTrigger=PropertyChanged}"
                          Margin="5 0 0 0">
-
                     <ListBox.Template>
                         <ControlTemplate>
                             <Border BorderBrush="#ffffff"

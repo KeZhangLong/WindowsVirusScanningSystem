@@ -77,7 +77,7 @@ namespace WindowsVirusScanningSystem.View
 
                 PEHelper pEHelper = new PEHelper(item.FilePath);
 
-                    DosItems.Add(new DosItem("e_magic", BitConverter.ToString(pEHelper._DosHeader.e_magic), "Magic number"));
+                DosItems.Add(new DosItem("e_magic", BitConverter.ToString(pEHelper._DosHeader.e_magic), "Magic number"));
                 DosItems.Add(new DosItem("e_cblp", BitConverter.ToString(pEHelper._DosHeader.e_cblp), "Bytes on last page of file"));
                 DosItems.Add(new DosItem("e_cp", BitConverter.ToString(pEHelper._DosHeader.e_cp), "Pages in file"));
                 DosItems.Add(new DosItem("e_crlc", BitConverter.ToString(pEHelper._DosHeader.e_crlc), "Relocations"));

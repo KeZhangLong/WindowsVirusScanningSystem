@@ -10,14 +10,41 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows.Media;
 using System.Windows.Controls;
+using System.Linq;
+using System.Data;
 
 namespace WindowsVirusScanningSystem.ViewModel
 {
     class DocumentScanningFunctionVM : Utilities.ViewModelBase
     {
+        private string btnState = "病毒检测";
+
+        public string BtnState
+        {
+            get { return btnState; }
+            set { btnState = value; OnPropertyChanged(); }
+        }
+
+        //进度条值
+        private int progress = 0;
+        public int Progress
+        {
+            get { return progress; }
+            set { progress = value; OnPropertyChanged(); }
+        }
+
+        //进度条总值
+        private int fileCount = int.MaxValue;
+        public int FileCount
+        {
+            get { return fileCount; }
+            set { fileCount = value; OnPropertyChanged(); }
+        }
         //公用模型
         private readonly PageModel _pageModel;
         public ObservableCollection<ItemViewModel> Results { get; set; }
+
+        public ObservableCollection<SearchRecordItem> SearchRecordResults { get; set; }
 
         //查询文件夹的路径
         public string? folderPath
@@ -105,19 +132,38 @@ namespace WindowsVirusScanningSystem.ViewModel
             set { _pageModel.SearchRecursive = value; OnPropertyChanged(); }
         }
 
+        private ICommand recoverRecordItemCommand;
+        public ICommand RecoverRecordItemCommand
+        {
+            get { return recoverRecordItemCommand; }
+            set { recoverRecordItemCommand = value; OnPropertyChanged(); }
+        }
+
         public DocumentScanningFunctionVM()
         {
             Results = new ObservableCollection<ItemViewModel>();
+
+            SearchRecordResults = new ObservableCollection<SearchRecordItem>();
 
             _pageModel = new PageModel();
             SearchFolderPathCommand = new RelayCommand(SearchFolderPath);
             SearchFolderContentCommand = new RelayCommand(SearchFolderContent);
             VirusDetectionCommand = new RelayCommand(VirusDetection);
+            RecoverRecordItemCommand = new RelayCommand(RecoverRecordItem);
+
+            RefreshDbData();
         }
 
         public ICommand SearchFolderPathCommand { get; set; }
         public ICommand SearchFolderContentCommand { get; set; }
         public ICommand VirusDetectionCommand { get; set; }
+
+        private void RecoverRecordItem(object sender)
+        {
+            ItemViewModel listBoxItem = (ItemViewModel)sender;
+
+
+        }
 
         /// <summary>
         /// 查找要搜索的文件夹路径
@@ -131,32 +177,58 @@ namespace WindowsVirusScanningSystem.ViewModel
             if (fbd.ShowDialog() == true)
             {
                 if (IsDirectory(fbd.SelectedPath))
+                {
                     folderPath = fbd.SelectedPath;
+                    InitProgress();
+                   
+                }
                 else
+                {
                     MessageBox.Show("选择的文件夹不存在");
+                }
             }
+        }
+
+        private void InitProgress()
+        {
+            FileCount = int.MaxValue;
+            Progress = 0;
         }
 
         private void VirusDetection(object o)
         {
-            //先停止之前的搜索
-            StopScanning();
-
-            //检测文件或文件夹数量，小于等于0直接返回
-            if (Results.Count <= 0)
+            if (BtnState == "病毒检测")
             {
-                return;
+                //先停止之前的搜索
+                StopScanning();
+
+                //检测文件或文件夹数量，小于等于0直接返回
+                if (Results.Count <= 0)
+                {
+                    return;
+                }
+
+                //设置为启动模式
+                SetScanningStatus(true);
+
+                BtnState = "取消病毒检测";
+
+                var t1 = Task.Run(() =>
+                {
+                    ScanModule();
+                });
             }
-
-            //设置为启动模式
-            SetScanningStatus(true);
-
-            var t1 = Task.Run(() =>
+            else
             {
-                ScanModule();
-            });
+                //先停止之前的搜索
+                StopScanning();
 
-            Task.WaitAll(t1);
+                BtnState = "病毒检测";
+
+                InitProgress();
+
+                MessageBox.Show("已停止扫描");
+            }
         }
 
         //扫描病毒模块
@@ -164,6 +236,8 @@ namespace WindowsVirusScanningSystem.ViewModel
         {
             try
             {
+                FileCount = Results.Count;
+
                 for (int i = 0; i < Results.Count; i++)
                 {
                     if (!CanScanning) return;
@@ -235,6 +309,14 @@ namespace WindowsVirusScanningSystem.ViewModel
 
                         //再去数据库进行匹配
                     }
+
+                    Progress++;
+                }
+
+                if(FileCount == Progress)
+                {
+                    MessageBox.Show("扫描完成");
+                    BtnState = "病毒检测";
                 }
             }
             catch (Exception ex)
@@ -254,17 +336,43 @@ namespace WindowsVirusScanningSystem.ViewModel
         private void FileMd5Culator(ItemViewModel item)
         {
             DataResult<string> r = HashHelper.ComputeMD5(item.FilePath);
+
             if (r.IsSuccess)
             {
                 item.MD5Str = r.Value;//文件的MD5值
-                item.IsScanComplete = "已扫描";
-                item.IsScanCompleteColor = Brushes.Green;
+
+                bool result = VirusDetect(r.Value);//病毒检测结果
+
+                if (result)//不是病毒
+                {
+                    item.IsScanComplete = "已扫描";
+                    item.IsScanCompleteColor = Brushes.Green;
+                }
+                else
+                {
+                    item.IsScanComplete = "疑似病毒";
+                    item.IsScanCompleteColor = Brushes.Red;
+                }
             }
             else
             {
                 item.MD5Str = string.Empty;//文件的MD5值
                 item.IsScanComplete = "发生错误";
                 item.IsScanCompleteColor = Brushes.Red;
+            }
+        }
+
+        private bool VirusDetect(string FileMD5)
+        {
+            int result = SQLiteHelper.Instance.DetectVirus(FileMD5);
+
+            if(result != 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -333,10 +441,29 @@ namespace WindowsVirusScanningSystem.ViewModel
 
                             SetSearchingStatus(false);
                         });
+
+                        SQLiteHelper.Instance.InsertData(DateTime.Now.ToString("yyyy-MMM-dd-HH-mm-ss"), folderPath.Split("\\").Last(), folderPath, "1");
+
+                        RefreshDbData();
                     }
                 }
             }
             catch (Exception e) { MessageBox.Show($"{e.Message} -- Cancelling Search"); CancelSearch(); }
+        }
+
+        //刷新扫描记录数据
+        private void RefreshDbData()
+        {
+            DataTable dt = SQLiteHelper.Instance.GetDataTable("1");
+
+            int RowCount = dt.Rows.Count;
+
+            SearchRecordResults.Clear();
+
+            for (int i = 0; i < RowCount; i++)
+            {
+                SearchRecordResults.Add(new SearchRecordItem(dt.Rows[i][0].ToString(), dt.Rows[i][1].ToString(), dt.Rows[i][2].ToString(),new RelayCommand(RecoverRecordItem)));
+            }
         }
 
         public void StartSearchRecursively()

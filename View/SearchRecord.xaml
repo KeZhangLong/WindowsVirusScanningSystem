@@ -16,7 +16,7 @@
         <Converters:IconToImageSourceConverter x:Key="IconToImageSourceConverter" />
         <Converters:FileIsPEConverter x:Key="FileIsPEConverter" />
     </UserControl.Resources>
-    <Grid>
+    <Grid >
         <controls:HighlightableTextBlock Text="{Binding FilePath, UpdateSourceTrigger=PropertyChanged, FallbackValue=FileName}"
                                          Foreground="#ffffff"
                                          ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"

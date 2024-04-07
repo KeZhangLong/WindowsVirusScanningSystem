@@ -100,9 +100,11 @@ namespace WindowsVirusScanningSystem.ViewModel
 
             int RowCount = dt.Rows.Count;
 
+            SearchRecordResults.Clear();
+
             for (int i = 0; i < RowCount; i++)
             {
-                SearchRecordResults.Add(new SearchRecordItem(dt.Rows[i][0].ToString(), dt.Rows[i][1].ToString(), dt.Rows[i][2].ToString()));
+                SearchRecordResults.Add(new SearchRecordItem(dt.Rows[i][0].ToString(), dt.Rows[i][1].ToString(), dt.Rows[i][2].ToString(),null));
             }
         }
 
@@ -178,10 +180,12 @@ namespace WindowsVirusScanningSystem.ViewModel
 
                             SetSearchingStatus(false);
 
-                            SQLiteHelper.Instance.InsertData(DateTime.Now.ToString("yyyy-MMM-dd-HH-mm-ss"), folderPath, folderPath, "2");
-
-                            RefreshDbData();
                         });
+
+
+                        SQLiteHelper.Instance.InsertData(DateTime.Now.ToString("yyyy-MMM-dd-HH-mm-ss"), folderPath, folderPath, "2");
+
+                        RefreshDbData();
                     }
                 }
             }
