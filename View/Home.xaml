@@ -3,19 +3,69 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:card="clr-namespace:WindowsVirusScanningSystem.View"
+             xmlns:controls="clr-namespace:WindowsVirusScanningSystem.Controls"
              xmlns:local="clr-namespace:WindowsVirusScanningSystem.View"
              mc:Ignorable="d"
              d:DesignHeight="650"
              d:DesignWidth="722">
 
     <Grid>
+        <Canvas>
+            <controls:HighlightableTextBlock Text="VirusDetectionSystem"
+                                             Foreground="#ffffff"
+                                             FontSize="25"
+                                             FontWeight="Bold" 
+                                             Canvas.Top="25"
+                                             Canvas.Left="15"/>
+        </Canvas>
 
-        <Border CornerRadius="0,20,20,0" Margin="0,5,5,0">
+        <ListBox Background="#212529"
+                         Grid.Column="1"
+                         ItemsSource="{Binding SearchRecordResults, UpdateSourceTrigger=PropertyChanged}"
+                         HorizontalContentAlignment="Stretch"
+                         Margin="15 90 10 15">
+            <ListBox.Template>
+                <ControlTemplate>
+                    <Border BorderBrush="#ffffff"
+                            Padding="4"
+                            BorderThickness="1">
+                        <DockPanel LastChildFill="True">
+                            <Grid DockPanel.Dock="Top"
+                                  Height="30">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="140"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="80"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0"
+                                       Foreground="#ffffff"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left">扫描时间</Label>
 
-            <Image Source="/Images/home_page.png"
-                   Stretch="Fill" />
+                                <Label Grid.Column="1"
+                                       Foreground="#ffffff"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left">名称</Label>
 
-        </Border>
+                                <Label Grid.Column="2"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Foreground="#ffffff"></Label>
 
+                            </Grid>
+                            <ScrollViewer Focusable="False">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </DockPanel>
+                    </Border>
+                </ControlTemplate>
+            </ListBox.Template>
+            <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <card:SearchRecord DataContext="{Binding}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
     </Grid>
 </UserControl>

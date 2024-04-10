@@ -15,6 +15,13 @@ using System.Data;
 
 namespace WindowsVirusScanningSystem.ViewModel
 {
+    enum ScanType
+    {
+        扫描成功,
+        疑似病毒,
+        发生错误,
+        终止扫描
+    }
     class DocumentScanningFunctionVM : Utilities.ViewModelBase
     {
         private string btnState = "病毒检测";
@@ -34,17 +41,20 @@ namespace WindowsVirusScanningSystem.ViewModel
         }
 
         //进度条总值
-        private int fileCount = int.MaxValue;
-        public int FileCount
+        private int count = int.MaxValue;
+        public int Count
         {
-            get { return fileCount; }
-            set { fileCount = value; OnPropertyChanged(); }
+            get { return count; }
+            set { count = value; OnPropertyChanged(); }
         }
+
         //公用模型
         private readonly PageModel _pageModel;
+
+        //Listbox.Item
         public ObservableCollection<ItemViewModel> Results { get; set; }
 
-        public ObservableCollection<SearchRecordItem> SearchRecordResults { get; set; }
+      
 
         //查询文件夹的路径
         public string? folderPath
@@ -132,38 +142,23 @@ namespace WindowsVirusScanningSystem.ViewModel
             set { _pageModel.SearchRecursive = value; OnPropertyChanged(); }
         }
 
-        private ICommand recoverRecordItemCommand;
-        public ICommand RecoverRecordItemCommand
-        {
-            get { return recoverRecordItemCommand; }
-            set { recoverRecordItemCommand = value; OnPropertyChanged(); }
-        }
-
         public DocumentScanningFunctionVM()
         {
             Results = new ObservableCollection<ItemViewModel>();
 
-            SearchRecordResults = new ObservableCollection<SearchRecordItem>();
-
             _pageModel = new PageModel();
-            SearchFolderPathCommand = new RelayCommand(SearchFolderPath);
-            SearchFolderContentCommand = new RelayCommand(SearchFolderContent);
-            VirusDetectionCommand = new RelayCommand(VirusDetection);
-            RecoverRecordItemCommand = new RelayCommand(RecoverRecordItem);
 
-            RefreshDbData();
+            //通过文件路径扫描文件夹内容
+            //SearchFolderPathCommand = new RelayCommand(SearchFolderPath);
+
+            SearchFolderContentCommand = new RelayCommand(SearchFolderPath);
+
+            VirusDetectionCommand = new RelayCommand(VirusDetection);
         }
 
-        public ICommand SearchFolderPathCommand { get; set; }
+        //public ICommand SearchFolderPathCommand { get; set; }
         public ICommand SearchFolderContentCommand { get; set; }
         public ICommand VirusDetectionCommand { get; set; }
-
-        private void RecoverRecordItem(object sender)
-        {
-            ItemViewModel listBoxItem = (ItemViewModel)sender;
-
-
-        }
 
         /// <summary>
         /// 查找要搜索的文件夹路径
@@ -178,9 +173,12 @@ namespace WindowsVirusScanningSystem.ViewModel
             {
                 if (IsDirectory(fbd.SelectedPath))
                 {
+                    //扫描路径
                     folderPath = fbd.SelectedPath;
+                    //初始化进度条的总值、初始值
                     InitProgress();
-                   
+                    //扫描文件夹内容
+                    SearchFolderContent();
                 }
                 else
                 {
@@ -191,14 +189,30 @@ namespace WindowsVirusScanningSystem.ViewModel
 
         private void InitProgress()
         {
-            FileCount = int.MaxValue;
+            Count = int.MaxValue;
             Progress = 0;
         }
 
+        /// <summary>
+        /// 病毒扫描
+        /// </summary>
+        /// <param name="o"></param>
         private void VirusDetection(object o)
         {
             if (BtnState == "病毒检测")
             {
+                //正在查询文件，不能病毒检查
+                if (IsSearching)
+                {
+                    return;
+                }
+
+                //已经扫描一次
+                if(Progress == Count)
+                {
+                    return;
+                }
+
                 //先停止之前的搜索
                 StopScanning();
 
@@ -216,6 +230,9 @@ namespace WindowsVirusScanningSystem.ViewModel
                 var t1 = Task.Run(() =>
                 {
                     ScanModule();
+
+                    //完成后，状态设置为false
+                    SetScanningStatus(false);
                 });
             }
             else
@@ -236,8 +253,12 @@ namespace WindowsVirusScanningSystem.ViewModel
         {
             try
             {
-                FileCount = Results.Count;
+                int virusCount = 0;
 
+                //文件+文件夹数量
+                Count = Results.Count;
+
+                //遍历Results
                 for (int i = 0; i < Results.Count; i++)
                 {
                     if (!CanScanning) return;
@@ -251,60 +272,92 @@ namespace WindowsVirusScanningSystem.ViewModel
                         //检测是不是文件夹，如果是则使用递归
                         if (Results[i].Type == FileType.Folder)//文件夹需要进去进行递归
                         {
-                            bool DirectorySearch(string filePath)
+                            int vCount = 0;
+
+                            ScanType DirectorySearch(string filePath)
                             {
+                                //开始之前先设置变量
+                                ScanType result = ScanType.扫描成功;
+
                                 //这将循环遍历每个文件夹，然后做同样的事情;
                                 foreach (string folder in Directory.GetDirectories(filePath))//检测文件夹内是否还有文件夹
                                 {
-                                    // Cancel search if needed
-                                    if (!CanScanning) return false;
+                                    if (!CanScanning) return ScanType.终止扫描;
 
                                     foreach (string file in Directory.GetFiles(folder))
                                     {
                                         // Cancel search if needed
-                                        if (!CanScanning) return false;
-                                        if (!FolderMd5Culator(Results[i], file))
+                                        if (!CanScanning) return ScanType.终止扫描;
+
+                                        result = FileMd5Culator(Results[i],file);
+
+                                        if (result == ScanType.疑似病毒)
                                         {
-                                            return false;
+                                            virusCount++;
+                                            vCount++;
+                                        }
+                                        if(result == ScanType.发生错误)
+                                        {
+                                            return result;
                                         }
                                     }
 
-                                    DirectorySearch(folder);//递归
-
-                                    return true;
+                                    //继续查看还有没有文件夹
+                                     return DirectorySearch(folder);//递归
                                 }
 
-                                return true;
+                                return ScanType.扫描成功;
                             }
 
-                            if (!DirectorySearch(Results[i].FilePath))
+                            ScanType result = DirectorySearch(Results[i].FilePath);
+
+                            //标识扫描成功的话进入
+                            if (result != ScanType.扫描成功)
                             {
-                                Results[i].IsScanComplete = "发生错误";
+                                Results[i].IsScanComplete = result.ToString();
                                 Results[i].IsScanCompleteColor = Brushes.Red;
-                                continue;
                             }
 
+                            //文件夹内文件数为0
                             if (Directory.GetFiles(Results[i].FilePath).Length == 0)
                             {
-                                Results[i].IsScanComplete = "已扫描";
+                                Results[i].IsScanComplete = "扫描成功";
                                 Results[i].IsScanCompleteColor = Brushes.Green;
                             }
                             else
                             {
                                 foreach (string file in Directory.GetFiles(Results[i].FilePath))//文件夹内的文件
                                 {
-                                    if (!CanScanning) return;
-                                    if (!FolderMd5Culator(Results[i], file))
+                                    if (!CanScanning)
                                     {
-                                        Results[i].IsScanComplete = "发生错误";
+                                        Results[i].IsScanComplete = ScanType.终止扫描.ToString();
+                                        return;
+                                    }
+
+                                    ScanType r = FileMd5Culator(Results[i], file);
+
+                                    if (r != ScanType.扫描成功)
+                                    {
+                                        Results[i].IsScanComplete = r.ToString();
                                         Results[i].IsScanCompleteColor = Brushes.Red;
                                     }
+                                    if(r == ScanType.疑似病毒)
+                                    {
+                                        virusCount++;
+                                        vCount++;
+                                    }
+                                }
+
+                                if (vCount == 0)
+                                {
+                                    Results[i].IsScanComplete = "扫描完成";
+                                    Results[i].IsScanCompleteColor = Brushes.Green;
                                 }
                             }
                         }
                         else//文件
                         {
-                            FileMd5Culator(Results[i]);
+                            FileMd5Culator(Results[i],ref virusCount);
                         }
 
                         //再去数据库进行匹配
@@ -313,17 +366,23 @@ namespace WindowsVirusScanningSystem.ViewModel
                     Progress++;
                 }
 
-                if(FileCount == Progress)
+                if(Count == Progress)
                 {
                     MessageBox.Show("扫描完成");
+
                     BtnState = "病毒检测";
+
+                    //扫描完成后，将数据保存到数据库
+                    SQLiteHelper.Instance.InsertScanVirusData(DateTime.Now.ToString("yyyyMMMddHHmmssfff"), folderPath, FilesSearched.ToString(),
+                        FoldersSearched.ToString(), virusCount.ToString(), DateTime.Now.ToString("s"));
                 }
+
+                StopScanning();//停止搜索
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
-                MessageBox.Show("已停止搜索");
                 StopScanning();//停止搜索
+                throw new Exception($"病毒扫描错误{ex.Message}");
             }
         }
 
@@ -333,7 +392,7 @@ namespace WindowsVirusScanningSystem.ViewModel
             //item.IsScanCompleteColor = Brushes.Green;
         }
 
-        private void FileMd5Culator(ItemViewModel item)
+        private void FileMd5Culator(ItemViewModel item , ref int virusCount)
         {
             DataResult<string> r = HashHelper.ComputeMD5(item.FilePath);
 
@@ -345,11 +404,12 @@ namespace WindowsVirusScanningSystem.ViewModel
 
                 if (result)//不是病毒
                 {
-                    item.IsScanComplete = "已扫描";
+                    item.IsScanComplete = "扫描完成";
                     item.IsScanCompleteColor = Brushes.Green;
                 }
                 else
                 {
+                    virusCount++;
                     item.IsScanComplete = "疑似病毒";
                     item.IsScanCompleteColor = Brushes.Red;
                 }
@@ -364,7 +424,7 @@ namespace WindowsVirusScanningSystem.ViewModel
 
         private bool VirusDetect(string FileMD5)
         {
-            int result = SQLiteHelper.Instance.DetectVirus(FileMD5);
+            int result = SQLiteHelper.Instance.GetVirusSampleDataByValue(FileMD5);
 
             if(result != 1)
             {
@@ -376,31 +436,42 @@ namespace WindowsVirusScanningSystem.ViewModel
             }
         }
 
-        private bool FolderMd5Culator(ItemViewModel item,string filePath)
+
+        /// <summary>
+        /// 文件MD5计算
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        private ScanType FileMd5Culator(ItemViewModel item,string filePath)
         {
             DataResult<string> r = HashHelper.ComputeMD5(filePath);
 
+            //计算成功
             if (r.IsSuccess)
             {
-                item.MD5Strs.Add(r.Value);
-                item.IsScanComplete = "已扫描";
-                item.IsScanCompleteColor = Brushes.Green;
-                return true;
+                bool result = VirusDetect(r.Value);//病毒检测结果
+
+                if (result)//不是病毒
+                {
+                    return ScanType.扫描成功;
+                }
+                else
+                {
+                    return ScanType.疑似病毒;
+                }
             }
-            else
+            else//大概率文件被占用，无法计算
             {
                 MessageBox.Show(r.Message);
-                item.MD5Str = string.Empty;//文件的MD5值
-                return false;
+                return ScanType.发生错误;
             }
         }
-
 
         /// <summary>
         /// 搜索文件夹路径内的文件跟文件夹
         /// </summary>
-        /// <param name="o"></param>
-        private void SearchFolderContent(object o)
+        private void SearchFolderContent()
         {
             try
             {
@@ -413,6 +484,7 @@ namespace WindowsVirusScanningSystem.ViewModel
 
                 //先停止之前的搜索
                 CancelSearch();
+
                 //先停止之前的扫描（病毒）
                 StopScanning();
 
@@ -424,125 +496,33 @@ namespace WindowsVirusScanningSystem.ViewModel
                     if (IsDirectory(folderPath))
                     {
                         Clear();
+
                         SetSearchingStatus(true);
 
                         Task.Run(() =>
                         {
-                            //if (SearchRecursive)
-                            //{
-                            //    StartSearchRecursively();
-                            //}
-                            //else
-                            //{
-                            //    StartSearchNonRecursively();
-                            //}
-
                             StartSearchNonRecursively();
 
+                            //完成后，扫描状态设置未false
                             SetSearchingStatus(false);
                         });
-
-                        SQLiteHelper.Instance.InsertData(DateTime.Now.ToString("yyyy-MMM-dd-HH-mm-ss"), folderPath.Split("\\").Last(), folderPath, "1");
-
-                        RefreshDbData();
                     }
                 }
             }
             catch (Exception e) { MessageBox.Show($"{e.Message} -- Cancelling Search"); CancelSearch(); }
         }
 
-        //刷新扫描记录数据
-        private void RefreshDbData()
-        {
-            DataTable dt = SQLiteHelper.Instance.GetDataTable("1");
-
-            int RowCount = dt.Rows.Count;
-
-            SearchRecordResults.Clear();
-
-            for (int i = 0; i < RowCount; i++)
-            {
-                SearchRecordResults.Add(new SearchRecordItem(dt.Rows[i][0].ToString(), dt.Rows[i][1].ToString(), dt.Rows[i][2].ToString(),new RelayCommand(RecoverRecordItem)));
-            }
-        }
-
-        public void StartSearchRecursively()
-        {
-            if (string.IsNullOrEmpty(folderPath))
-            {
-                MessageBox.Show("搜索路径为空");
-                return;
-            }
-
-            void DirectorySearch(string toSearchDir)
-            {
-                // This will loop through every folder and then do the same thing
-                // For subfolders and so on indefinitely until there's no
-                // more sub folders
-                //这将循环遍历每个文件夹，然后做同样的事情
-                //对于子文件夹等等，直到没有
-                //更多子文件夹
-                foreach (string folder in Directory.GetDirectories(toSearchDir))
-                {
-                    // Cancel search if needed
-                    if (!CanSearch) return;
-
-                    foreach (string file in Directory.GetFiles(folder))
-                    {
-                        if (!CanSearch) return;
-
-                        SearchFileName(file);
-                    }
-
-                    FoldersSearched++;
-
-                    // This is what makes this run recursively, the fact you
-                    // can the same function in the same function... sort of
-                    //这就是它递归运行的原因
-                    //可以在同一个函数中使用同一个函数…的
-                    DirectorySearch(folder);
-                }
-            }
-
-            DirectorySearch(folderPath);
-
-            // Also need to search through every file in the start folders too...
-            //还需要搜索开始文件夹中的每个文件…
-
-            foreach (string file in Directory.GetFiles(folderPath))
-            {
-                if (!CanSearch) return;
-
-                bool hasFoundFile = SearchFileName(file);
-
-                // this stops there from being duplicated items.
-                // if it's already found the item above, dont search
-                // the contents because that's just pointless.
-                //这会阻止重复的项。
-                //如果它已经找到了上面的项目，不搜索
-                //内容，因为那是没有意义的。
-                if (!hasFoundFile)
-                {
-                    ReadAndSearchFile(file, false);
-                }
-            }
-        }
-
         public void StartSearchNonRecursively()
         {
-            // Non recursive is a big less messy
-            // Because this is async, you could end up changing StartFolder and it would
-            // Mess up the search a bit.
-            //非递归是一个大的不那么混乱
-            //因为这是异步的，你可能会改变StartFolder
-            //把搜索弄乱一点。
-
-            foreach (string file in Directory.GetDirectories(folderPath))
+            //文件夹
+            foreach (string folder in Directory.GetDirectories(folderPath))
             {
                 if (!CanSearch) return;
-                SearchFolderName(file);
+
+                SearchFolderName(folder);
             }
 
+            //文件
             foreach (string file in Directory.GetFiles(folderPath))
             {
                 if (!CanSearch) return;
@@ -579,17 +559,15 @@ namespace WindowsVirusScanningSystem.ViewModel
                         // Get text from buffer
                         string txt = Encoding.ASCII.GetString(b);
 
-                        // Inline convert the text to lower if CaseSensitive is false
-                        //if ((CaseSensitive ? txt : txt.ToLower()).Contains(searchText))
-                        //{
-                            ResultFound(file);
-                            break;
-                        //}
+                        ResultFound(file);
+                        break;
                     }
                 }
 
                 if (increaseSearchedFiles)
+                {
                     FilesSearched++;
+                }
             }
             catch (Exception e) { MessageBox.Show($"{e.Message} -- Cancelling Search"); CancelSearch(); }
         }
@@ -680,6 +658,7 @@ namespace WindowsVirusScanningSystem.ViewModel
                 AddResultAsync(result);
         }
 
+        //异步增加ListBox.Item
         public void AddResultAsync(ItemViewModel result)
         {
             Application.Current?.Dispatcher?.Invoke(() =>
@@ -688,6 +667,7 @@ namespace WindowsVirusScanningSystem.ViewModel
             });
         }
 
+        //创建ListBox.Item
         public ItemViewModel CreateResultFromPath(string path)
         {
             if (IsFile(path))
@@ -700,7 +680,6 @@ namespace WindowsVirusScanningSystem.ViewModel
                         Image = IconHelper.GetIconOfFile(path, false, false),
                         FileName = fInfo.Name,
                         FilePath = fInfo.FullName,
-                        //Selection = selectionText,
                         FileSizeBytes = fInfo.Length,
                         IsScanCompleteColor = Brushes.White,
                         IsScanComplete = "未扫描",
@@ -724,9 +703,6 @@ namespace WindowsVirusScanningSystem.ViewModel
                         Image = IconHelper.GetIconOfFile(path, false, true),
                         FileName = dInfo.Name,
                         FilePath = dInfo.FullName,
-                        //Selection = selectionText,
-                        // This is the flag used before
-                        // In the FileSizeFormatterConverter
                         IsScanCompleteColor = Brushes.White,
                         IsScanComplete = "未扫描",
                         IsSkipScan = false,

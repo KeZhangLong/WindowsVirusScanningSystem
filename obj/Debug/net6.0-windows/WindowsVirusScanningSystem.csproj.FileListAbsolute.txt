@@ -67,3 +67,5 @@ C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View
 C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\SearchRecord.baml
 C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\SampleImport.g.cs
 C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\SampleImport.baml
+C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\ScanDataDisplay.g.cs
+C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\ScanDataDisplay.baml

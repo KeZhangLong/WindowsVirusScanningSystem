@@ -113,7 +113,7 @@ namespace WindowsVirusScanningSystem.ViewModel
                             continue;
                         }
 
-                        SQLiteHelper.Instance.InsertSampleData(data[i]);
+                        SQLiteHelper.Instance.InsertVirusSampleData(data[i],"Unknown", data[i],DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-fff"));
 
                         Progress++;
                     }

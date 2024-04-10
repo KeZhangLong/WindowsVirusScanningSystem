@@ -28,6 +28,9 @@
     <Compile Update="View\SampleImport.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\ScanDataDisplay.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\SearchRecord.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -73,6 +76,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\SampleImport.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\ScanDataDisplay.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\SearchRecord.xaml">

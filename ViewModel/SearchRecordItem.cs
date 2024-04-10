@@ -1,29 +1,42 @@
 ﻿using System.Windows.Input;
 using WindowsVirusScanningSystem.Utilities;
+using WindowsVirusScanningSystem.View;
 
 namespace WindowsVirusScanningSystem.ViewModel
 {
     public class SearchRecordItem : ViewModelBase
     {
-        public SearchRecordItem(string time, string fileName, string filePath, ICommand _recoverRecordItemCommand)
+        public SearchRecordItem Instance = null;
+        public SearchRecordItem(string recordId, string scanPath, string fileCount, string folderCount,string virusCount, string scanTime)
         {
-            Time = time;
-            FileName = fileName;
-            FilePath = filePath;
-            RecoverRecordItemCommand = _recoverRecordItemCommand;
+            RecordId = recordId;
+            ScanPath = scanPath;
+            FileCount = fileCount;
+            FolderCount = folderCount;
+            VirusCount = virusCount;
+            ScanTime = scanTime;
+            VirusCount = virusCount;
+
+            Instance = this;
+
+            RecoverRecordItemCommand = new RelayCommand(ShowDataView);
         }
 
-        public string Time { get; set; }
+        public string RecordId { get; set; }
+        public string ScanPath { get; set; }
+        public string FileCount { get; set; }
+        public string FolderCount { get; set; }
+        public string VirusCount { get; set; }
+        public string ScanTime { get; set; }
 
-        public string FileName { get; set; }
+        //点击查看扫描记录详细数据
+        public ICommand RecoverRecordItemCommand { get; set; }
 
-        public string FilePath { get; set; }
-
-        private ICommand recoverRecordItemCommand;
-        public ICommand RecoverRecordItemCommand
+        private void ShowDataView(object e)
         {
-            get { return recoverRecordItemCommand; }
-            set { recoverRecordItemCommand = value; OnPropertyChanged(); }
+            ScanDataDisplay scanDataDisplay = new ScanDataDisplay(Instance);
+
+            scanDataDisplay.ShowDialog();
         }
     }
 }

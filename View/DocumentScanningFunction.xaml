@@ -33,7 +33,7 @@
                     <ColumnDefinition Width="90" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="90" />
-                    <ColumnDefinition Width="90" />
+                    <!--<ColumnDefinition Width="90" />-->
                 </Grid.ColumnDefinitions>
 
                 <Label Foreground="#ffffff"
@@ -49,19 +49,19 @@
                          Padding="5"
                          VerticalAlignment="Top" />
                 <Button Grid.Column="2"
-                        Command="{Binding SearchFolderPathCommand}"
+                        Command="{Binding SearchFolderContentCommand}"
                         Style="{StaticResource BoxBtnStyle}"
-                        Content="浏览"
+                        Content="浏览扫描"
                         VerticalAlignment="Top"
                         Width="80"
                         Height="35" />
-                <Button Grid.Column="3"
+                <!--<Button Grid.Column="3"
                         Command="{Binding SearchFolderContentCommand}"
                         Style="{StaticResource BoxBtnStyle}"
                         Content="开始扫描"
                         VerticalAlignment="Top"
                         Width="80"
-                        Height="35" />
+                        Height="35" />-->
             </Grid>
 
             <Grid Grid.Row="1">
@@ -70,8 +70,8 @@
                     <ColumnDefinition Width="200" />
                 </Grid.ColumnDefinitions>
 
-                <ProgressBar Margin="25 10 10 10" 
-                             Maximum="{Binding FileCount}"
+                <ProgressBar Margin="25 10 10 10"
+                             Maximum="{Binding Count}"
                              Value="{Binding Progress}"/>
 
                 <Button Margin="5 0"
@@ -88,10 +88,10 @@
 
         <Border  Grid.Row="1" Padding="15">
             <Grid>
-                <Grid.ColumnDefinitions>
+                <!--<Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="0.35*" />
-                </Grid.ColumnDefinitions>
+                </Grid.ColumnDefinitions>-->
 
                 <ListBox Background="#212529"
                          ItemsSource="{Binding Results, UpdateSourceTrigger=PropertyChanged}"
@@ -147,7 +147,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
 
-                <ListBox Background="#212529"
+                <!--<ListBox Background="#212529"
                          Grid.Column="1"
                          ItemsSource="{Binding SearchRecordResults, UpdateSourceTrigger=PropertyChanged}"
                          Margin="5 0 0 0">
@@ -166,8 +166,8 @@
                                         <Label Grid.Column="0"
                                                Foreground="#ffffff"
                                                HorizontalAlignment="Center">名称</Label>
-                                        <!--<Label Grid.Column="1" HorizontalAlignment="Center"
-                                                       Foreground="#ffffff">时间</Label>-->
+                                        --><!--<Label Grid.Column="1" HorizontalAlignment="Center"
+                                                       Foreground="#ffffff">时间</Label>--><!--
                                     </Grid>
                                     <ScrollViewer Focusable="False">
                                         <ItemsPresenter />
@@ -176,16 +176,16 @@
                             </Border>
                         </ControlTemplate>
                     </ListBox.Template>
-                    <!-- The ItemsSource is a ResultItemViewModel collection, -->
+                    --><!-- The ItemsSource is a ResultItemViewModel collection, -->
                     <!-- Meaning you can use the ItemTemplate to bind to the ViewModel -->
-                    <!-- The DataContext = {Binding} because that is the ResultItemViewModel -->
+                    <!-- The DataContext = {Binding} because that is the ResultItemViewModel --><!--
 
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <card:SearchRecord DataContext="{Binding}" />
                         </DataTemplate>
                     </ListBox.ItemTemplate>
-                </ListBox>
+                </ListBox>-->
             </Grid>
         </Border>
     </Grid>

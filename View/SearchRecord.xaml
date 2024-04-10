@@ -7,8 +7,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:WindowsVirusScanningSystem.View"
              mc:Ignorable="d"
-             Height="25"
-             d:DesignWidth="210"
+             Height="30"
+             d:DesignWidth="470"
              Foreground="{DynamicResource ControlDefaultForeground}">
     <UserControl.Resources>
         <Converters:FileNameToExtensionConverter x:Key="FileNameToExtensionConverter" />
@@ -16,23 +16,32 @@
         <Converters:IconToImageSourceConverter x:Key="IconToImageSourceConverter" />
         <Converters:FileIsPEConverter x:Key="FileIsPEConverter" />
     </UserControl.Resources>
-    <Grid >
-        <controls:HighlightableTextBlock Text="{Binding FilePath, UpdateSourceTrigger=PropertyChanged, FallbackValue=FileName}"
-                                         Foreground="#ffffff"
-                                         ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"
-                                         Margin="10,5,10,0"
-                                         VerticalAlignment="Top"
-                                         FontWeight="Bold" />
-        <!--<TextBlock Text="{Binding Time, UpdateSourceTrigger=PropertyChanged, FallbackValue=FileSizeByte}"
+    <Grid>
+        <TextBlock Text="{Binding ScanTime, UpdateSourceTrigger=PropertyChanged, FallbackValue=FileSizeByte}"
                    ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"
-                   Margin="0,2,2,0"
+                   Margin="0,0,0,0"
                    Foreground="#ffffff"
                    TextWrapping="NoWrap"
                    TextTrimming="CharacterEllipsis"
-                   VerticalAlignment="Top"
-                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Left"
                    FontFamily="8"
-                   Width="80"/>-->
+                   Width="130" />
+        <controls:HighlightableTextBlock Text="{Binding ScanPath, UpdateSourceTrigger=PropertyChanged, FallbackValue=FileName}"
+                                         Foreground="#ffffff"
+                                         ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"
+                                         Margin="135,0,75,0"
+                                         HorizontalAlignment="Left"
+                                         VerticalAlignment="Center"
+                                         FontWeight="Bold" />
+        <Button Style="{StaticResource BoxBtnStyle}"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right"
+                Margin="0 0 0 0"
+                Height="20"
+                Width="60"
+                FontSize="13"
+                Content="查看"
+                Command="{Binding RecoverRecordItemCommand}"/>
     </Grid>
 </UserControl>
-
