@@ -93,9 +93,20 @@
                                        Style="{StaticResource Text_Style}" />
 
                         </Grid>
+                    </Menu:Btn>
 
+                    <Menu:Btn Style="{StaticResource BtnStyle}"
+                              Command="{Binding WhiteListManagementCommand}">
 
+                        <Grid>
 
+                            <Image Source="Images/img_setting.png"
+                                   Style="{StaticResource Image_Style}" />
+
+                            <TextBlock Text="白名单管理"
+                                       Style="{StaticResource Text_Style}" />
+
+                        </Grid>
                     </Menu:Btn>
 
                     <Menu:Btn Style="{StaticResource BtnStyle}"

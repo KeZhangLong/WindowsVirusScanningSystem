@@ -1,6 +1,8 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -10,18 +12,21 @@ using System.Windows.Forms;
 using System.Windows.Media.TextFormatting;
 using WindowsVirusScanningSystem.Model;
 using WindowsVirusScanningSystem.Utilities;
+using WindowsVirusScanningSystem.View;
 
 namespace WindowsVirusScanningSystem.ViewModel
 {
     class SampleImportVM : Utilities.ViewModelBase
     {
+        public ObservableCollection<VirusSampleItem> VirusSamples { get; set; }
+
         bool isCancel = false;
 
         int rowCount = int.MaxValue;
 
         int progress = 0;
 
-        string btnState = "导入病毒样本";
+        string btnState = "批量导入";
 
         public string BtnState
         {
@@ -49,13 +54,45 @@ namespace WindowsVirusScanningSystem.ViewModel
         public SampleImportVM()
         {
             ImportedVirusSampleCommand = new RelayCommand(ImportedVirusSample);
+
+            AddSampleCommand = new RelayCommand(AddSample);
+
+            VirusSamples = new ObservableCollection<VirusSampleItem>();
+
+            RefreshDbData();
+        }
+
+        //刷新扫描记录数据
+        private void RefreshDbData()
+        {
+            DataTable dt = SQLiteHelper.Instance.GetVirusSampleData();
+
+            int RowCount = dt.Rows.Count;
+
+            VirusSamples.Clear();
+
+            for (int i = 0; i < RowCount; i++)
+            {
+                VirusSamples.Add(new VirusSampleItem(dt.Rows[i][0].ToString(), dt.Rows[i][1].ToString(), dt.Rows[i][2].ToString(), dt.Rows[i][3].ToString()));
+            }
         }
 
         public RelayCommand ImportedVirusSampleCommand { get; set; }
 
+        public RelayCommand AddSampleCommand { get; set; }
+
+        private void AddSample(object e)
+        {
+            AddSampleDisplay addSampleDisplay = new AddSampleDisplay();
+
+            addSampleDisplay.ShowDialog();
+
+            RefreshDbData();
+        }
+
         private void ImportedVirusSample(object e)
         {
-            if (BtnState == "导入病毒样本")
+            if (BtnState == "批量导入")
             {
                 System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog();
 
@@ -67,16 +104,17 @@ namespace WindowsVirusScanningSystem.ViewModel
                 {
                     BtnState = "取消导入";
 
-                    TaskState(false);
+                    TaskState(false);//状态：执行中
 
                     string filePath = openFileDialog.FileName;//获取在文件对话框中选定的路径或者字符串
 
                     ReadTxt(filePath);
+
                 }
             }
             else
             {
-                TaskState(true);
+                TaskState(true);//状态：结束
             }
         }
 
@@ -89,14 +127,14 @@ namespace WindowsVirusScanningSystem.ViewModel
         {
             try
             {
-                Task.Run(() =>
+                var t1 = Task.Run(() =>
                 {
                     StreamReader sR = File.OpenText(filePath);
 
                     // 全部读完 
                     string restOfStream = sR.ReadToEnd();
 
-                    string[] data = restOfStream.Split("\r\n");
+                    string[] data = restOfStream.Split("\r\n");//分割符
 
                     RowCount = data.Length;
 
@@ -113,7 +151,7 @@ namespace WindowsVirusScanningSystem.ViewModel
                             continue;
                         }
 
-                        SQLiteHelper.Instance.InsertVirusSampleData(data[i],"Unknown", data[i],DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-fff"));
+                        SQLiteHelper.Instance.InsertVirusSampleData(DateTime.Now.ToString("yyyyMMddHHmmssfffff"), "Unknown", data[i],DateTime.Now.ToString("s"));
 
                         Progress++;
                     }
@@ -127,7 +165,7 @@ namespace WindowsVirusScanningSystem.ViewModel
                         //什么也不用干
                     }
 
-                    BtnState = "导入病毒样本";
+                    BtnState = "批量导入";
                     RowCount = int.MaxValue;
                     Progress = 0;
 

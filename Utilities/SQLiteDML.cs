@@ -6,7 +6,7 @@ namespace WindowsVirusScanningSystem.Utilities
     public class SQLiteDML
     {
         public const string InsertVirusSampleData = $"INSERT OR IGNORE INTO VirusSample (SampleId,SampleName,SampleHash,CreatedTime) " +
-            $"VALUES (@SampleName,@SampleName,@SampleHash,@CreatedTime)";
+            $"VALUES (@SampleId,@SampleName,@SampleHash,@CreatedTime)";
 
         public const string InsertScanVirusData = $"INSERT OR IGNORE INTO ScanRecord (RecordId,ScanPath,FileCount,FolderCount,VirusCount,ScanTime) " +
            $"VALUES (@Id,@Path,@FiCou,@FoCou,@ViCou,@Time)";

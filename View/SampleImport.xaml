@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vm="clr-namespace:WindowsVirusScanningSystem.ViewModel"
              xmlns:local="clr-namespace:WindowsVirusScanningSystem.View"
+             xmlns:card="clr-namespace:WindowsVirusScanningSystem.View"
+             xmlns:controls="clr-namespace:WindowsVirusScanningSystem.Controls"
              mc:Ignorable="d"
              d:DesignHeight="650"
              d:DesignWidth="722">
@@ -14,15 +16,85 @@
         <vm:SampleImportVM />
     </UserControl.DataContext>
 
-    <StackPanel  HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Button  Style="{StaticResource BoxBtnStyle}"
-                 Width="150"
-                Margin="0 0 0 40"
-                 Content="{Binding BtnState}"
-                 Command="{Binding ImportedVirusSampleCommand}" />
-        <ProgressBar  Maximum="{Binding RowCount}"
-                      Height="20"
-                      Width="440"
-                      Value="{Binding Progress}"/>
-    </StackPanel>
-</UserControl>
+    <Grid Margin="0 50 0 0">
+        <Canvas>
+            <controls:HighlightableTextBlock Text="Virus"
+                                             Selection="{Binding Selection, UpdateSourceTrigger=PropertyChanged, FallbackValue=Selection}"
+                                             Foreground="#ffffff"
+                                             ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"
+                                             FontWeight="Bold"
+                                             FontSize="25"
+                                             Canvas.Top="30"
+                                             Canvas.Left="20" />
+
+            <Button  Style="{StaticResource BoxBtnStyle}"
+                     Width="100" 
+                     Canvas.Right="120"
+                     Canvas.Top="30"
+                     Content="{Binding BtnState}"
+                     Command="{Binding ImportedVirusSampleCommand}" />
+
+            <Button  Style="{StaticResource BoxBtnStyle}"
+                     Width="100"
+                     Canvas.Right="10"
+                     Canvas.Top="30"
+                     Content="添加"
+                     Command="{Binding AddSampleCommand}" />
+
+            <ProgressBar  Maximum="{Binding RowCount}"
+                          Canvas.Right="240"
+                          Canvas.Top="35"
+                          Height="20"
+                          Width="340"
+                          Value="{Binding Progress}" />
+
+        </Canvas>
+        <ListBox Background="#212529"
+                 Grid.Column="1"
+                 ItemsSource="{Binding VirusSamples, UpdateSourceTrigger=PropertyChanged}"
+                 HorizontalContentAlignment="Stretch"
+                 Margin="15 80 15 15">
+            <ListBox.Template>
+                <ControlTemplate>
+                    <Border BorderBrush="#ffffff"
+                            Padding="4"
+                            BorderThickness="1">
+                        <DockPanel LastChildFill="True">
+                            <Grid DockPanel.Dock="Top"
+                                  Height="30">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="140"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="80"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0"
+                                       Foreground="#ffffff"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left">病毒名称</Label>
+
+                                <Label Grid.Column="1"
+                                       Foreground="#ffffff"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left">哈希值</Label>
+
+                                <Label Grid.Column="2"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Foreground="#ffffff">创建时间</Label>
+
+                            </Grid>
+                            <ScrollViewer Focusable="False">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </DockPanel>
+                    </Border>
+                </ControlTemplate>
+            </ListBox.Template>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <card:VirusSampleItem DataContext="{Binding}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+  </UserControl>

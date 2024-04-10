@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="WindowsVirusScanningSystem.View.VirusSampleItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:WindowsVirusScanningSystem.Controls"
+             xmlns:Converters="clr-namespace:WindowsVirusScanningSystem.Converters"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WindowsVirusScanningSystem.View"
+             mc:Ignorable="d" 
+             Height="30"
+             d:DesignWidth="470"
+             Foreground="{DynamicResource ControlDefaultForeground}">
+    <UserControl.Resources>
+        <Converters:FileNameToExtensionConverter x:Key="FileNameToExtensionConverter" />
+        <Converters:FileSizeFormatterConverter x:Key="FileSizeFormatterConverter" />
+        <Converters:IconToImageSourceConverter x:Key="IconToImageSourceConverter" />
+        <Converters:FileIsPEConverter x:Key="FileIsPEConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <TextBlock Text="{Binding SampleName, UpdateSourceTrigger=PropertyChanged, FallbackValue=FileSizeByte}"
+                   ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"
+                   Margin="0,0,0,0"
+                   Foreground="#ffffff"
+                   TextWrapping="NoWrap"
+                   TextTrimming="CharacterEllipsis"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Left"
+                   FontFamily="8"
+                   Width="130" />
+        <controls:HighlightableTextBlock Text="{Binding SampleHash, UpdateSourceTrigger=PropertyChanged, FallbackValue=FileName}"
+                                         Foreground="#ffffff"
+                                         ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"
+                                         Margin="135,0,75,0"
+                                         HorizontalAlignment="Left"
+                                         VerticalAlignment="Center"
+                                         FontWeight="Bold" />
+        <controls:HighlightableTextBlock Text="{Binding CreatedTime, UpdateSourceTrigger=PropertyChanged, FallbackValue=FileName}"
+                                         Foreground="#ffffff"
+                                         ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"
+                                         Margin="0,0,20,0"
+                                         HorizontalAlignment="Right"
+                                         VerticalAlignment="Center"/>
+    </Grid>
+</UserControl>
+

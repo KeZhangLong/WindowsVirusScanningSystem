@@ -7,6 +7,12 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="View\AddFileIntoWhiteListDisplay.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\AddSampleDisplay.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\DocumentScanningFunction.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -34,6 +40,12 @@
     <Compile Update="View\SearchRecord.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\VirusSampleItem.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\WhiteListManagement.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\WpfHexEditor.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -55,6 +67,12 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Utilities\DataTemplate.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\AddFileIntoWhiteListDisplay.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\AddSampleDisplay.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\DocumentScanningFunction.xaml">
@@ -82,6 +100,12 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\SearchRecord.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\VirusSampleItem.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\WhiteListManagement.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\WpfHexEditor.xaml">

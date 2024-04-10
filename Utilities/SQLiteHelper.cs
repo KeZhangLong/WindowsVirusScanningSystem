@@ -247,6 +247,54 @@ namespace WindowsVirusScanningSystem.Utilities
         }
 
         /// <summary>
+        /// 按文件路径查询白名单表数据,是否存在
+        /// </summary>
+        public int GetFileWhiteListDataByValue(string filePath)
+        {
+            try
+            {
+                using (SQLiteConn = new SQLiteConnection(SQLiteConnString))
+                {
+                    SQLiteConn.Open();
+
+                    DataTable tb = new DataTable();
+
+                    int result = 0;
+
+                    using (SQLiteCommand cmd = new SQLiteCommand(SQLiteConn))
+                    {
+                        cmd.CommandText = $"{SQLiteDQL.FileWhiteListData};";
+
+                        cmd.Parameters.AddWithValue("@value", filePath);
+
+                        using (SQLiteDataAdapter ad = new SQLiteDataAdapter(cmd))
+                        {
+                            ad.Fill(tb);
+
+                            for(int i = 0; i < tb.Rows.Count; i++)
+                            {
+                                if(filePath == tb.Rows[i][1].ToString())
+                                {
+                                    result = 1;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    SQLiteConn.Close();
+
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"查询病毒样本表数据失败:{ex.Message}");
+
+            }
+        }
+
+        /// <summary>
         /// 插入病毒样本数据
         /// </summary>
         /// <param name="sampleId"></param>
@@ -312,6 +360,45 @@ namespace WindowsVirusScanningSystem.Utilities
                         command.Parameters.AddWithValue("@FoCou", folderCount);
                         command.Parameters.AddWithValue("@ViCou", virusCount);
                         command.Parameters.AddWithValue("@Time", scanTime);
+
+                        command.ExecuteNonQuery(); // 执行插入数据的SQL语句
+                    }
+
+                    SQLiteConn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"插入病毒样本数据失败:{ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// 插入白名单
+        /// </summary>
+        /// <param name="time"></param>
+        /// <param name="fileName"></param>
+        /// <param name="filePath"></param>
+        /// <param name="virusCount"></param>
+        /// <param name="type"></param>
+        /// <exception cref="Exception"></exception>
+        public void InsertFileWhiteListData(string File_id, string File_name, string File_hash, string CreatedTime)
+        {
+            try
+            {
+                using (SQLiteConn = new SQLiteConnection(SQLiteConnString))
+                {
+                    SQLiteConn.Open();
+
+                    using (SQLiteCommand command = new SQLiteCommand(SQLiteConn))
+                    {
+                        command.CommandText = SQLiteDML.InsertFileWhiteListData;
+
+                        // 设置参数值，避免SQL注入
+                        command.Parameters.AddWithValue("@File_id", File_id);
+                        command.Parameters.AddWithValue("@File_name", File_name);
+                        command.Parameters.AddWithValue("@File_hash", File_hash);
+                        command.Parameters.AddWithValue("@CreatedTime", CreatedTime);
 
                         command.ExecuteNonQuery(); // 执行插入数据的SQL语句
                     }

@@ -14,7 +14,11 @@
     <DataTemplate DataType="{x:Type vm:PEFileAnalysisVM}">
         <view:PEFileAnalysis />
     </DataTemplate>
-    
+
+    <DataTemplate DataType="{x:Type vm:WhiteListManagementVM}">
+        <view:WhiteListManagement />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type vm:SampleImportVM}">
         <view:SampleImport/>
     </DataTemplate>

@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Controls;
 using System.Linq;
 using System.Data;
+using System.Windows.Documents;
+using System.Collections.Generic;
 
 namespace WindowsVirusScanningSystem.ViewModel
 {
@@ -142,11 +144,15 @@ namespace WindowsVirusScanningSystem.ViewModel
             set { _pageModel.SearchRecursive = value; OnPropertyChanged(); }
         }
 
+        ObservableCollection<string> WhiteList = null;
+        
         public DocumentScanningFunctionVM()
         {
             Results = new ObservableCollection<ItemViewModel>();
 
             _pageModel = new PageModel();
+
+            WhiteTableReady();
 
             //通过文件路径扫描文件夹内容
             //SearchFolderPathCommand = new RelayCommand(SearchFolderPath);
@@ -159,6 +165,24 @@ namespace WindowsVirusScanningSystem.ViewModel
         //public ICommand SearchFolderPathCommand { get; set; }
         public ICommand SearchFolderContentCommand { get; set; }
         public ICommand VirusDetectionCommand { get; set; }
+
+        /// <summary>
+        /// 准备白名单字典
+        /// </summary>
+        private void WhiteTableReady()
+        {
+            DataTable WhiteTable = SQLiteHelper.Instance.GetFileWhiteListData();
+
+            WhiteList = new ObservableCollection<string>();
+
+            Task.Run(() =>
+            {
+                for(int i=0;i<WhiteTable.Rows.Count;i++)
+                {
+                    WhiteList.Add(WhiteTable.Rows[i][1].ToString());
+                }
+            });
+        }
 
         /// <summary>
         /// 查找要搜索的文件夹路径
@@ -575,7 +599,7 @@ namespace WindowsVirusScanningSystem.ViewModel
         public bool SearchFileName(string name)
         {
             CurrentlySearching = name;
-            string fPath = CaseSensitive ? name : name.ToLower();
+            string fPath = name;
             ResultFound(fPath);
             FilesSearched++;
             return true;
@@ -644,7 +668,7 @@ namespace WindowsVirusScanningSystem.ViewModel
         /// <returns></returns>
         public bool SearchFolderName(string name)
         {
-            string dPath = CaseSensitive ? name : name.ToLower();
+            string dPath = name;
 
             ResultFound(dPath);
             FoldersSearched++;
@@ -683,7 +707,7 @@ namespace WindowsVirusScanningSystem.ViewModel
                         FileSizeBytes = fInfo.Length,
                         IsScanCompleteColor = Brushes.White,
                         IsScanComplete = "未扫描",
-                        IsSkipScan = false,
+                        IsSkipScan = WhiteList.Contains(path) ? true : false,//是否加入白名单
                         IsPE = false,
                         Type = FileType.File
                     };

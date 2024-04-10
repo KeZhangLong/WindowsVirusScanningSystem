@@ -19,6 +19,7 @@ namespace WindowsVirusScanningSystem.ViewModel
             WpfHexEditorCommand = new RelayCommand(WpfHexEditor);
             DocumentScanningFunctionCommand = new RelayCommand(DocumentScanningFunction);
             SampleImportCommand= new RelayCommand(SampleImport);
+            WhiteListManagementCommand = new RelayCommand(WhiteListManagement);
 
             // Startup Page
             CurrentView = new HomeVM();
@@ -37,10 +38,13 @@ namespace WindowsVirusScanningSystem.ViewModel
         public ICommand DocumentScanningFunctionCommand { get; set; }
         public ICommand SampleImportCommand { get; set; }
 
-        private void Home(object obj) => CurrentView = new HomeVM();
+        public ICommand WhiteListManagementCommand{ get; set; }
+
+    private void Home(object obj) => CurrentView = new HomeVM();
         private void DocumentScanningFunction(object obj) => CurrentView = new DocumentScanningFunction();
         private void PEFileAnalysis(object obj) => CurrentView = new PEFileAnalysisVM();
         private void WpfHexEditor(object obj) => CurrentView = new WpfHexEditorVM();
         private void SampleImport(object obj) => CurrentView = new SampleImportVM();
+        private void WhiteListManagement(object obj) => CurrentView = new WhiteListManagementVM();
     }
 }

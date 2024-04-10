@@ -128,7 +128,7 @@
                                                HorizontalAlignment="Right">状态</Label>
                                         <Label Grid.Column="5"
                                                HorizontalAlignment="Center"
-                                               Foreground="#ffffff">是否跳过检测</Label>
+                                               Foreground="#ffffff">白名单</Label>
                                     </Grid>
                                     <ScrollViewer Focusable="False">
                                         <ItemsPresenter></ItemsPresenter>
