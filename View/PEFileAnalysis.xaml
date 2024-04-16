@@ -5,51 +5,127 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:card="clr-namespace:WindowsVirusScanningSystem.View"
              xmlns:local="clr-namespace:WindowsVirusScanningSystem.View"
+             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              mc:Ignorable="d"
              d:DesignHeight="650"
              d:DesignWidth="722"
              x:Name="window"
              Style="{StaticResource Page_Style}">
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="employeeCollectionViewSource">
+            <CollectionViewSource.SortDescriptions>
+                <!--排序描述-->
+                <scm:SortDescription PropertyName="Num" />
+            </CollectionViewSource.SortDescriptions>
+            <CollectionViewSource.GroupDescriptions>
+                <!--分组描述-->
+                <PropertyGroupDescription PropertyName="Title" />
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+
+        <Style x:Key="ButtonFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2"
+                                   SnapsToDevicePixels="true"
+                                   Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+                                   StrokeThickness="1"
+                                   StrokeDashArray="1 2" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <LinearGradientBrush x:Key="ButtonNormalBackground"
+                             EndPoint="0,1"
+                             StartPoint="0,0">
+            <GradientStop Color="#F3F3F3"
+                          Offset="0" />
+            <GradientStop Color="#EBEBEB"
+                          Offset="0.5" />
+            <GradientStop Color="#DDDDDD"
+                          Offset="0.5" />
+            <GradientStop Color="#CDCDCD"
+                          Offset="1" />
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="ButtonNormalBorder"
+                         Color="#FF707070" />
+    </UserControl.Resources>
     <Grid Margin="10 80 10 10">
+
+        <!--  窗体1  -->
         <Border x:Name="Window1">
             <Border.RenderTransform>
                 <TranslateTransform X="0" />
             </Border.RenderTransform>
 
             <Grid>
-                <Grid.RowDefinitions>
+                <!--<Grid.RowDefinitions>
                     <RowDefinition Height="50" />
                     <RowDefinition Height="0.9*" />
-                </Grid.RowDefinitions>
-
-                <Grid>
+                </Grid.RowDefinitions>-->
+              
+                <Grid HorizontalAlignment="Stretch"
+                      VerticalAlignment="Center"
+                      >
                     <Grid>
-                        <Grid.ColumnDefinitions>
+                        <!--<Grid.ColumnDefinitions>
                             <ColumnDefinition Width="90" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="90" />
                             <ColumnDefinition Width="90" />
-                        </Grid.ColumnDefinitions>
+                        </Grid.ColumnDefinitions>-->
 
-                        <Label Foreground="#ffffff"
-                               Content="搜索路径："
+                        <!--<Label Foreground="#ffffff"
+                               Content="请选择要打开的文件"
                                FontSize="18"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Top" />
-                        <TextBox Grid.Column="1"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top" />-->
+                        <!--<TextBox Grid.Column="1"
                                  Text="{Binding folderPath, UpdateSourceTrigger=PropertyChanged}"
                                  Height="35"
                                  TextWrapping="NoWrap"
                                  FontSize="16"
                                  Padding="5"
-                                 VerticalAlignment="Top" />
-                        <Button Grid.Column="2"
-                                Command="{Binding SearchFileOfFolderPathCommand}"
-                                Style="{StaticResource BoxBtnStyle}"
-                                Content="浏览"
-                                VerticalAlignment="Top"
-                                Width="80"
-                                Height="35" />
+                                 VerticalAlignment="Top" />-->
+                        <Button Content="请选择要分析的PE文件"
+                                Click="ItemInfoPageMove_Click">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver"
+                                                 Value="True">
+                                            <Setter Property="FontSize"
+                                                    Value="19"></Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border CornerRadius="10"
+                                                        Background="#272B2F"
+                                                        Height="50"
+                                                        Width="220">
+                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                      VerticalAlignment="Center" />
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Foreground"
+                                            Value="#ffffff" />
+                                    <Setter Property="FontSize"
+                                            Value="18" />
+                                    <Setter Property="Effect">
+                                        <Setter.Value>
+                                            <DropShadowEffect ShadowDepth="1"
+                                                              BlurRadius="20"
+                                                              Opacity="0.5" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
                         <!--<Button Grid.Column="3"
                         Command="{Binding SearchFolderPathCommand}"
                         Style="{StaticResource BoxBtnStyle}"
@@ -60,7 +136,7 @@
                     </Grid>
                 </Grid>
 
-                <Border  Grid.Row="1"
+                <!--<Border  Grid.Row="1"
                          Padding="15">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -115,9 +191,9 @@
                                     </Border>
                                 </ControlTemplate>
                             </ListBox.Template>
-                            <!-- The ItemsSource is a ResultItemViewModel collection, -->
+                            --><!-- The ItemsSource is a ResultItemViewModel collection, -->
                             <!-- Meaning you can use the ItemTemplate to bind to the ViewModel -->
-                            <!-- The DataContext = {Binding} because that is the ResultItemViewModel -->
+                            <!-- The DataContext = {Binding} because that is the ResultItemViewModel --><!--
 
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
@@ -146,8 +222,8 @@
                                                 <Label Grid.Column="0" 
                                                        Foreground="#ffffff"
                                                        HorizontalAlignment="Center">名称</Label>
-                                                <!--<Label Grid.Column="1" HorizontalAlignment="Center"
-                                                       Foreground="#ffffff">时间</Label>-->
+                                                --><!--<Label Grid.Column="1" HorizontalAlignment="Center"
+                                                       Foreground="#ffffff">时间</Label>--><!--
                                             </Grid>
                                             <ScrollViewer Focusable="False">
                                                 <ItemsPresenter />
@@ -156,9 +232,9 @@
                                     </Border>
                                 </ControlTemplate>
                             </ListBox.Template>
-                            <!-- The ItemsSource is a ResultItemViewModel collection, -->
+                            --><!-- The ItemsSource is a ResultItemViewModel collection, -->
                             <!-- Meaning you can use the ItemTemplate to bind to the ViewModel -->
-                            <!-- The DataContext = {Binding} because that is the ResultItemViewModel -->
+                            <!-- The DataContext = {Binding} because that is the ResultItemViewModel --><!--
 
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
@@ -167,90 +243,230 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
                     </Grid>
-                </Border>
+                </Border>-->
             </Grid>
         </Border>
 
-        <Border x:Name="window2">
+        <Border x:Name="window2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Border.RenderTransform>
                 <TranslateTransform X="{Binding ElementName=window,Path=ActualWidth}" />
             </Border.RenderTransform>
 
-            <Grid>
-                <Button Click="ItemPageReturn_Click"
-                        Style="{StaticResource BoxBtnStyle}"
-                        Content="返回"
-                        Margin="0 5 10 0"
-                        VerticalAlignment="Top"
-                        HorizontalAlignment="Right"
-                        Width="80"
-                        Height="35">
-                </Button>
+            <ScrollViewer>
+                <Grid Margin="5 0 0 0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="140" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
 
-                <TextBlock x:Name="DosFileName"
-                           Margin="20 5 0 0"
-                           VerticalAlignment="Top"
-                           HorizontalAlignment="Left"
-                           Foreground="#ffffff"
-                           FontSize="15"
-                           TextWrapping="NoWrap"
-                           TextTrimming="CharacterEllipsis" />
-                
-                <ListBox Background="#212529"
-                         x:Name="DosFileConent"
-                    HorizontalContentAlignment="Stretch"
-                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                    Margin="0,65,5,15">
-                    <ListBox.Template>
-                        <ControlTemplate>
-                            <Border BorderBrush="#ffffff"
-                                    Padding="4"
-                                    BorderThickness="1">
-                                <DockPanel LastChildFill="True">
-                                    <Grid DockPanel.Dock="Top"
-                                          Height="30">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="100"></ColumnDefinition>
-                                            <ColumnDefinition Width="*"></ColumnDefinition>
-                                            <ColumnDefinition Width="30"></ColumnDefinition>
-                                            <ColumnDefinition Width="100"></ColumnDefinition>
-                                            <ColumnDefinition Width="50"></ColumnDefinition>
-                                            <ColumnDefinition Width="150"></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="0"
-                                               Foreground="#ffffff"
-                                               HorizontalAlignment="Right">DOS头文件</Label>
-                                        <Label Grid.Column="1"
-                                               Foreground="#ffffff" 
-                                               HorizontalAlignment="Center">文件内容</Label>
-                                        <Label Grid.Column="2"
-                                               Foreground="#ffffff"
-                                               HorizontalAlignment="Right"></Label>
-                                        <Label Grid.Column="3"
-                                               Foreground="#ffffff"
-                                               HorizontalAlignment="Center"></Label>
-                                        <Label Grid.Column="4"
-                                               Foreground="#ffffff"
-                                               HorizontalAlignment="Right"></Label>
-                                        <Label Grid.Column="5"
-                                               HorizontalAlignment="Center"
-                                               Foreground="#ffffff">描述</Label>
-                                    </Grid>
-                                    <ScrollViewer Focusable="False">
-                                        <ItemsPresenter />
-                                    </ScrollViewer>
-                                </DockPanel>
-                            </Border>
-                        </ControlTemplate>
-                    </ListBox.Template>
+                    <!--Row 0-->
+                    <Button Click="ItemPageReturn_Click"
+                            Style="{StaticResource BoxBtnStyle}"
+                            Content="返回"
+                            Margin="0 5 10 0"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Right"
+                            FontSize="18"
+                            Width="80"
+                            Height="35">
+                    </Button>
 
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <card:PEFileDosConten DataContext="{Binding}" />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </Grid>
+                    <TextBlock x:Name="DosFileName"
+                               Text="{Binding fileName}"
+                               Margin="20 5 0 0"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Left"
+                               Foreground="#ffffff"
+                               FontSize="15"
+                               TextWrapping="NoWrap"
+                               TextTrimming="CharacterEllipsis" />
+
+                    <!--Row 1-->
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="35" />
+                            <RowDefinition  Height="150" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Header"
+                                   Foreground="#ffffff"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   Margin="5 5 0 0"
+                                   FontWeight="Bold"
+                                   FontSize="16" />
+
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="300" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel>
+                                <TextBlock FontSize="15"
+                                           Text="Target Machine"
+                                           Foreground="#ffffff"
+                                           Margin="0 5 0 0" />
+                                <TextBlock FontSize="15"
+                                           Text="Compilation Timestamp"
+                                           Foreground="#ffffff"
+                                           Margin="0 5 0 0" />
+                                <TextBlock FontSize="15"
+                                           Text="Entry Point"
+                                           Foreground="#ffffff"
+                                           Margin="0 5 0 0" />
+                                <TextBlock FontSize="15"
+                                           Text="Contained Sections"
+                                           Foreground="#ffffff"
+                                           Margin="0 5 0 0" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1">
+                                <TextBlock FontSize="15"
+                                           Text="{Binding header.TargetMachine}"
+                                           Foreground="#ffffff"
+                                           Margin="0 5 0 0" />
+                                <TextBlock FontSize="15"
+                                           Text="{Binding header.CompilationTimestamp}"
+                                           Foreground="#ffffff"
+                                           Margin="0 5 0 0" />
+                                <TextBlock FontSize="15"
+                                           Text="{Binding header.EntryPoint}"
+                                           Foreground="#ffffff"
+                                           Margin="0 5 0 0" />
+                                <TextBlock FontSize="15"
+                                           Text="{Binding header.ContainedSections}"
+                                           Foreground="#ffffff"
+                                           Margin="0 5 0 0" />
+                            </StackPanel>
+                        </Grid>
+
+                    </Grid>
+
+                    <!--Row 2-->
+                    <!--<StackPanel Grid.Row="2" HorizontalAlignment="Stretch">-->
+                    <TextBlock  Grid.Row="2"
+                                Text="Sections"
+                                Foreground="#ffffff"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Margin="5 5 0 0"
+                                FontWeight="Bold"
+                                FontSize="16" />
+
+                    <ListBox Grid.Row="2"
+                             Background="#212529"
+                             x:Name="DosFileConent"
+                             Margin="0 30 0 0"
+                             HorizontalContentAlignment="Stretch"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                             ItemsSource="{Binding sections}">
+                        <ListBox.Template>
+                            <ControlTemplate>
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <Grid DockPanel.Dock="Top"
+                                              Height="30">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Grid.Column="0"
+                                                   Foreground="#ffffff"
+                                                   HorizontalAlignment="Center">Name</Label>
+                                            <Label Grid.Column="1"
+                                                   Foreground="#ffffff"
+                                                   HorizontalAlignment="Center">Virtual Address</Label>
+                                            <Label Grid.Column="2"
+                                                   Foreground="#ffffff"
+                                                   HorizontalAlignment="Center">Virtual Size</Label>
+                                            <Label Grid.Column="3"
+                                                   Foreground="#ffffff"
+                                                   HorizontalAlignment="Center">Raw Data</Label>
+                                        </Grid>
+                                        <ScrollViewer Focusable="False">
+                                            <ItemsPresenter />
+                                        </ScrollViewer>
+                                    </DockPanel>
+                                </Border>
+                            </ControlTemplate>
+                        </ListBox.Template>
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <card:PEFileDosConten DataContext="{Binding}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <!--</StackPanel>-->
+
+                    <!--Row 3-->
+                    <ListBox Grid.Row="3"
+                             Background="#212529"
+                             Margin="0 10 0 0"
+                             HorizontalContentAlignment="Stretch"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                             ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                             ItemsSource="{Binding imports}" 
+                             Focusable="False">
+                        <ListBox.Template>
+                            <ControlTemplate>
+                                <Border>
+                                    <DockPanel LastChildFill="True" >
+                                        <ItemsPresenter Focusable="False" />
+                                    </DockPanel>
+                                </Border>
+                            </ControlTemplate>
+                        </ListBox.Template>
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Expander Focusable="False" HorizontalContentAlignment="Stretch">
+                                    <Expander.Header>
+                                        <BulletDecorator>
+                                            <BulletDecorator.Bullet>
+                                                <Image Width="10" />
+                                            </BulletDecorator.Bullet>
+                                            <TextBlock Margin="20,0,0,0"
+                                                       FontSize="12"
+                                                       Foreground="#ffffff"
+                                                       Text="{Binding DLLName}"></TextBlock>
+                                        </BulletDecorator>
+                                    </Expander.Header>
+                                    <Expander.Content>
+                                        <ListBox ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                                 Focusable="False"
+                                            ItemsSource="{Binding FunctionName}"
+                                                 Background="#212529"
+                                                 BorderThickness="0"
+                                                 HorizontalContentAlignment="Stretch"
+                                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <TextBlock Text="{Binding }"
+                                                                   ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"
+                                                                   Margin="0,2,0,0"
+                                                                   TextWrapping="NoWrap"
+                                                                   Foreground="#ffffff"
+                                                                   TextTrimming="CharacterEllipsis"
+                                                                   VerticalAlignment="Top"
+                                                                   HorizontalAlignment="Left"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </Expander.Content>
+                                </Expander>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </ScrollViewer>
         </Border>
     </Grid>
 </UserControl>

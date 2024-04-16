@@ -17,50 +17,40 @@
         <Converters:FileIsPEConverter x:Key="FileIsPEConverter" />
     </UserControl.Resources>
     <Grid>
-        <!--<TextBlock Text="{Binding DosHead, UpdateSourceTrigger=PropertyChanged}"
-                   ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"
-                   Margin="0,2,5,0"
-                   TextWrapping="NoWrap"
-                   Foreground="#ffffff"
-                   TextTrimming="CharacterEllipsis"
-                   VerticalAlignment="Top"
-                   HorizontalAlignment="Right"
-                   Width="60" />-->
-        <controls:HighlightableTextBlock Text="{Binding Head, UpdateSourceTrigger=PropertyChanged, FallbackValue=FileName}"
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <controls:HighlightableTextBlock Grid.Column="0"
+            Text="{Binding SectName, UpdateSourceTrigger=PropertyChanged, FallbackValue=SectName}"
                                          Foreground="#ffffff"
                                          ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"
-                                         Margin="37,2,320,0"
                                          VerticalAlignment="Top"
+                                         HorizontalAlignment="Center"
                                          FontWeight="Bold" />
-        <!--<TextBlock Text="{Binding FilePath, UpdateSourceTrigger=PropertyChanged, FallbackValue=FilePath}"
+        <TextBlock Grid.Column="1"
+            Text="{Binding VirtualAddress, UpdateSourceTrigger=PropertyChanged,FallbackValue=VirtualAddress}"
                    ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"
-                   Margin="37,0,0,2"
-                   Foreground="#ffffff"
-                   TextWrapping="NoWrap"
-                   VerticalAlignment="Bottom" />-->
-        <TextBlock Text="{Binding Content, UpdateSourceTrigger=PropertyChanged}"
-                   ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"
-                   Margin="0,2,250,0"
                    Foreground="#ffffff"
                    TextWrapping="NoWrap"
                    TextTrimming="CharacterEllipsis"
                    VerticalAlignment="Top"
-                   HorizontalAlignment="Right"
-                   Width="200" />
-        <!--<TextBlock Text="{Binding IsScanComplete, UpdateSourceTrigger=PropertyChanged}"
-                   Foreground="{Binding IsScanCompleteColor, UpdateSourceTrigger=PropertyChanged}"
-                   ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"
-                   Margin="0,2,75,0"
-                   FontSize="13"
-                   FontWeight="Light"
-                   VerticalAlignment="Top"
-                   HorizontalAlignment="Right" />-->
-        <TextBlock Text="{Binding Introduce, UpdateSourceTrigger=PropertyChanged}"
+                   HorizontalAlignment="Center"/>
+        <TextBlock Grid.Column="2"
+            Text="{Binding VirtualSize, UpdateSourceTrigger=PropertyChanged,FallbackValue=VirtualSize}"
                    Foreground="#ffffff"
                    ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"
-                   Margin="0,2,20,0"
                    FontSize="13"
                    VerticalAlignment="Top"
-                   HorizontalAlignment="Right" />
+                   HorizontalAlignment="Center" />
+        <TextBlock Grid.Column="3"
+            Text="{Binding SizeOfRawData, UpdateSourceTrigger=PropertyChanged,FallbackValue=SizeOfRawData}"
+                   Foreground="#ffffff"
+                   ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"
+                   FontSize="13"
+                   VerticalAlignment="Top"
+                   HorizontalAlignment="Center" />
     </Grid>
 </UserControl>
