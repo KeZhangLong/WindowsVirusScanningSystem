@@ -84,16 +84,18 @@ namespace WindowsVirusScanningSystem.View
 
         private void GOPosition_Click(object sender, RoutedEventArgs e)
         {
-            if (long.TryParse(PositionText.Text, out var position))
-                HexEdit.SetPosition(position, 1);
-            else
-                MessageBox.Show("Enter long value.");
+            //if (long.TryParse(PositionText.Text, out var position))
+            //    HexEdit.SetPosition(position, 1);
+            //else
+            //    MessageBox.Show("Enter long value.");
 
-            ViewMenu.IsSubmenuOpen = false;
+            //ViewMenu.IsSubmenuOpen = false;
         }
 
-        private void PositionText_TextChanged(object sender, TextChangedEventArgs e) =>
-            GoPositionButton.IsEnabled = long.TryParse(PositionText.Text, out var _);
+        private void PositionText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+           // GoPositionButton.IsEnabled = long.TryParse(PositionText.Text, out var _);
+        }
 
         private void UndoMenu_Click(object sender, RoutedEventArgs e) => HexEdit.Undo();
 
@@ -110,9 +112,9 @@ namespace WindowsVirusScanningSystem.View
         private void CTableASCIIButton_Click(object sender, RoutedEventArgs e)
         {
             HexEdit.TypeOfCharacterTable = CharacterTableType.Ascii;
-            CTableAsciiButton.IsChecked = true;
-            CTableTblButton.IsChecked = false;
-            CTableTblDefaultAsciiButton.IsChecked = false;
+            //CTableAsciiButton.IsChecked = true;
+            //CTableTblButton.IsChecked = false;
+            //CTableTblDefaultAsciiButton.IsChecked = false;
         }
 
         private void CTableTBLButton_Click(object sender, RoutedEventArgs e)
@@ -126,9 +128,9 @@ namespace WindowsVirusScanningSystem.View
 
             HexEdit.LoadTblFile(fileDialog.FileName);
             HexEdit.TypeOfCharacterTable = CharacterTableType.TblFile;
-            CTableAsciiButton.IsChecked = false;
-            CTableTblButton.IsChecked = true;
-            CTableTblDefaultAsciiButton.IsChecked = false;
+            //CTableAsciiButton.IsChecked = false;
+            //CTableTblButton.IsChecked = true;
+            //CTableTblDefaultAsciiButton.IsChecked = false;
 
             Application.Current.MainWindow.Cursor = null;
         }
