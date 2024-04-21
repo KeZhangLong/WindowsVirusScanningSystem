@@ -13,13 +13,13 @@ namespace WindowsVirusScanningSystem.ViewModel
 {
     class WhiteListManagementVM
     {
-        public ObservableCollection<VirusSampleItem> WhiteList { get; set; }
+        public ObservableCollection<WhiteFileItem> WhiteList { get; set; }
 
         public WhiteListManagementVM()
         {
             AddFileIntoWhiteListCommand = new RelayCommand(AddFileIntoWhiteList);
 
-            WhiteList = new ObservableCollection<VirusSampleItem>();
+            WhiteList = new ObservableCollection<WhiteFileItem>();
 
             RefreshDbData();
         }
@@ -46,7 +46,7 @@ namespace WindowsVirusScanningSystem.ViewModel
 
             for (int i = 0; i < RowCount; i++)
             {
-                WhiteList.Add(new VirusSampleItem(dt.Rows[i][0].ToString(), dt.Rows[i][1].ToString(), dt.Rows[i][2].ToString(), dt.Rows[i][3].ToString()));
+                WhiteList.Add(new WhiteFileItem(dt.Rows[i][0].ToString(), dt.Rows[i][1].ToString(), dt.Rows[i][2].ToString(), dt.Rows[i][3].ToString()));
             }
         }
     }

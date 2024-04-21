@@ -92,7 +92,14 @@
             </ListBox.Template>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <card:VirusSampleItem DataContext="{Binding}" />
+                    <card:VirusSampleItem DataContext="{Binding}">
+                        <card:VirusSampleItem.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="删除"
+                                          Command="{Binding ItemDeleteCommand}" />
+                            </ContextMenu>
+                        </card:VirusSampleItem.ContextMenu>
+                    </card:VirusSampleItem>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

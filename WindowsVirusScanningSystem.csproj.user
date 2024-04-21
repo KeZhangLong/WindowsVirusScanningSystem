@@ -43,6 +43,9 @@
     <Compile Update="View\VirusSampleItem.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\WhiteFileItem.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\WhiteListManagement.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -103,6 +106,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\VirusSampleItem.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\WhiteFileItem.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\WhiteListManagement.xaml">

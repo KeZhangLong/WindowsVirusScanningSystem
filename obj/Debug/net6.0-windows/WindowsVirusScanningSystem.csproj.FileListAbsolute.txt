@@ -77,3 +77,5 @@ C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View
 C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\AddSampleDisplay.baml
 C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\AddFileIntoWhiteListDisplay.g.cs
 C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\AddFileIntoWhiteListDisplay.baml
+C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\WhiteFileItem.g.cs
+C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\View\WhiteFileItem.baml

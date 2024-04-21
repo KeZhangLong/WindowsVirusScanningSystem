@@ -63,8 +63,8 @@
             </ListBox.Template>
             <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <card:SearchRecord DataContext="{Binding}" />
-                        </DataTemplate>
+                    <card:SearchRecord DataContext="{Binding}" />
+                </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
     </Grid>

@@ -1,4 +1,4 @@
-﻿C:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\obj\Debug\net6.0-windows\GeneratedInternalTypeHelper.g.cs
+﻿
 FC:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\App.xaml;;
 FC:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\MainWindow.xaml;;
 FC:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\Utilities\DataTemplate.xaml;;
@@ -14,6 +14,7 @@ FC:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\View\SampleImport.xaml;;
 FC:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\View\ScanDataDisplay.xaml;;
 FC:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\View\SearchRecord.xaml;;
 FC:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\View\VirusSampleItem.xaml;;
+FC:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\View\WhiteFileItem.xaml;;
 FC:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\View\WhiteListManagement.xaml;;
 FC:\Users\Lenovo\Desktop\WindowsVirusScanningSystem\View\WpfHexEditor.xaml;;
 

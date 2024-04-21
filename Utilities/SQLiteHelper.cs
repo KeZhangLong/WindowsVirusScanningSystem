@@ -6,6 +6,7 @@ using System.IO;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
+using WindowsVirusScanningSystem.ViewModel;
 
 namespace WindowsVirusScanningSystem.Utilities
 {
@@ -409,6 +410,69 @@ namespace WindowsVirusScanningSystem.Utilities
             catch (Exception ex)
             {
                 throw new Exception($"插入病毒样本数据失败:{ex.Message}");
+            }
+        }
+
+        public bool DeleteVirusSample(string SampleId)
+        {
+            try
+            {
+                using (SQLiteConn = new SQLiteConnection(SQLiteConnString))
+                {
+                    SQLiteConn.Open();
+
+                    using (SQLiteCommand command = new SQLiteCommand(SQLiteConn))
+                    {
+                        command.CommandText = SQLiteDML.DeleteVirusSampleData;
+
+                        command.Parameters.AddWithValue("@SampleId", SampleId);
+
+                        int rows = command.ExecuteNonQuery();
+
+                        SQLiteConn.Close();
+
+                        if (rows > 0)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"插入病毒样本数据失败:{ex.Message}");
+            }
+        }
+
+        public bool DeleteWhiteFile(string whiteFileId)
+        {
+            using (SQLiteConn = new SQLiteConnection(SQLiteConnString))
+            {
+                SQLiteConn.Open();
+
+                using (SQLiteCommand command = new SQLiteCommand(SQLiteConn))
+                {
+                    command.CommandText = SQLiteDML.DeleteFileWhiteData;
+
+                    command.Parameters.AddWithValue("@File_id", whiteFileId);
+
+                    int rows = command.ExecuteNonQuery();
+
+                    SQLiteConn.Close();
+
+                    if (rows > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
             }
         }
     }

@@ -77,7 +77,14 @@
             </ListBox.Template>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <card:VirusSampleItem DataContext="{Binding}" />
+                    <card:WhiteFileItem DataContext="{Binding}">
+                        <card:WhiteFileItem.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="删除"
+                                          Command="{Binding ItemDeleteCommand}" />
+                            </ContextMenu>
+                        </card:WhiteFileItem.ContextMenu>
+                    </card:WhiteFileItem>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
